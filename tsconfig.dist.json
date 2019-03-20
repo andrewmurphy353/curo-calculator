@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "listEmittedFiles": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": false
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

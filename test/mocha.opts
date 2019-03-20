@@ -1,0 +1,5 @@
+# Options: https://mochajs.org/#mochaopts
+
+--require ts-node/register/transpile-only
+--recursive
+test/**/*.spec.ts
