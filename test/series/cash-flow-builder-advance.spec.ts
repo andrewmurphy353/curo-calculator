@@ -156,7 +156,7 @@ describe("CashFlowBuilder.build: Advance Series", () => {
   });
 });
 
-describe("CashFlowBuilder.build: Back-to-back Advance Series", () => {
+describe("CashFlowBuilder.build: Back-to-back Advance Series in arrear mode", () => {
   it("Advance series undated, start date of second series will return end date of previous series + freq", () => {
     advances = [];
     advances.push(
@@ -178,6 +178,42 @@ describe("CashFlowBuilder.build: Back-to-back Advance Series", () => {
     const expectedDate1 = DateUtils.rollMonth(today, 2, today.getDate());
     cashFlows = CashFlowBuilder.build(advances, today);
 
+    expect(cashFlows[0].postingDate.getTime()).to.be.equal(
+      expectedDate0.getTime()
+    );
+    expect(cashFlows[0].valueDate.getTime()).to.be.equal(
+      expectedDate0.getTime()
+    );
+    expect(cashFlows[1].postingDate.getTime()).to.be.equal(
+      expectedDate1.getTime()
+    );
+    expect(cashFlows[1].valueDate.getTime()).to.be.equal(
+      expectedDate1.getTime()
+    );
+  });
+});
+
+describe("CashFlowBuilder.build: Back-to-back Advance Series in advance mode", () => {
+  it("Advance series undated, start date of second series will return end date of previous series + frequency", () => {
+    advances = [];
+    advances.push(
+      SeriesAdvance.builder()
+        .setLabel("Advance series1")
+        .setNumberOf(1)
+        .setMode(Mode.Advance)
+        .build()
+    );
+    advances.push(
+      SeriesAdvance.builder()
+        .setLabel("Advance series2")
+        .setNumberOf(1)
+        .setMode(Mode.Advance)
+        .build()
+    );
+
+    const expectedDate0 = today;
+    const expectedDate1 = DateUtils.rollMonth(today, 1, today.getDate());
+    cashFlows = CashFlowBuilder.build(advances, today);
     expect(cashFlows[0].postingDate.getTime()).to.be.equal(
       expectedDate0.getTime()
     );

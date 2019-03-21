@@ -128,7 +128,16 @@ export default class CashFlowBuilder {
             }
           }
           if (seriesItem.postedDate === undefined) {
-            nextAdvPeriod = pDateToUse;
+            if (seriesItem.mode === Mode.Advance) {
+              // Shift current series window end date to the end of the last compounding period
+              nextAdvPeriod = DateUtils.rollDate(
+                pDateToUse,
+                seriesItem.frequency,
+                pDateDay
+              );
+            } else {
+              nextAdvPeriod = pDateToUse;
+            }
           }
           break;
 
@@ -152,7 +161,16 @@ export default class CashFlowBuilder {
             }
           }
           if (seriesItem.postedDate === undefined) {
-            nextPmtPeriod = pDateToUse;
+            if (seriesItem.mode === Mode.Advance) {
+              // Shift current series window end date to the end of the last compounding period
+              nextPmtPeriod = DateUtils.rollDate(
+                pDateToUse,
+                seriesItem.frequency,
+                pDateDay
+              );
+            } else {
+              nextPmtPeriod = pDateToUse;
+            }
           }
           break;
 
@@ -175,7 +193,16 @@ export default class CashFlowBuilder {
             }
           }
           if (seriesItem.postedDate === undefined) {
-            nextChgPeriod = pDateToUse;
+            if (seriesItem.mode === Mode.Advance) {
+              // Shift current series window end date to the end of the last compounding period
+              nextChgPeriod = DateUtils.rollDate(
+                pDateToUse,
+                seriesItem.frequency,
+                pDateDay
+              );
+            } else {
+              nextChgPeriod = pDateToUse;
+            }
           }
           break;
         /* istanbul ignore next */

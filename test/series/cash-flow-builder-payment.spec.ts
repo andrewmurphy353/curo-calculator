@@ -109,8 +109,8 @@ describe("CashFlowBuilder.build: Payment Series", () => {
   });
 });
 
-describe("CashFlowBuilder.build: Back-to-back Payment Series", () => {
-  it("Payment series undated, start date of second series will return end date of previous series, + frequency", () => {
+describe("CashFlowBuilder.build: Back-to-back Payment Series in arrear mode", () => {
+  it("Payment series undated, start date of second series will return end date of previous series", () => {
     payments = [];
     payments.push(
       SeriesPayment.builder()
@@ -129,6 +129,42 @@ describe("CashFlowBuilder.build: Back-to-back Payment Series", () => {
 
     const expectedDate0 = DateUtils.rollMonth(today, 1, today.getDate());
     const expectedDate1 = DateUtils.rollMonth(today, 2, today.getDate());
+    cashFlows = CashFlowBuilder.build(payments, today);
+    expect(cashFlows[0].postingDate.getTime()).to.be.equal(
+      expectedDate0.getTime()
+    );
+    expect(cashFlows[0].valueDate.getTime()).to.be.equal(
+      expectedDate0.getTime()
+    );
+    expect(cashFlows[1].postingDate.getTime()).to.be.equal(
+      expectedDate1.getTime()
+    );
+    expect(cashFlows[1].valueDate.getTime()).to.be.equal(
+      expectedDate1.getTime()
+    );
+  });
+});
+
+describe("CashFlowBuilder.build: Back-to-back Payment Series in advance mode", () => {
+  it("Payment series undated, start date of second series will return end date of previous series + frequency", () => {
+    payments = [];
+    payments.push(
+      SeriesPayment.builder()
+        .setLabel("Payment series1")
+        .setNumberOf(1)
+        .setMode(Mode.Advance)
+        .build()
+    );
+    payments.push(
+      SeriesPayment.builder()
+        .setLabel("Payment series2")
+        .setNumberOf(1)
+        .setMode(Mode.Advance)
+        .build()
+    );
+
+    const expectedDate0 = today;
+    const expectedDate1 = DateUtils.rollMonth(today, 1, today.getDate());
     cashFlows = CashFlowBuilder.build(payments, today);
     expect(cashFlows[0].postingDate.getTime()).to.be.equal(
       expectedDate0.getTime()
