@@ -1,6 +1,6 @@
 {
   "name": "@curo/calculator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A feature-rich library for performing simple to advanced instalment credit financial calculations.",
   "keywords": [
     "finance calculator",
