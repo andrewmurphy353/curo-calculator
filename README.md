@@ -1,5 +1,6 @@
 # Curo Calculator
 ![GitHub](https://img.shields.io/github/license/andrewmurphy353/curo-calculator.svg)
+[![Build Status](https://travis-ci.org/andrewmurphy353/curo-calculator.svg?branch=master)](https://travis-ci.org/andrewmurphy353/curo-calculator)
 
 A financial calculator for solving unknown cash flow values and unknown interest rates implicit in fixed-term instalment credit products, for example leasing, loans and hire purchase contracts [1].
 
