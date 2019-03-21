@@ -8,7 +8,7 @@ A financial calculator for solving unknown cash flow values and unknown interest
 
 This calculator library is available as a Typescript package and supports features that are likely to be found only in commercially developed software. It has been designed for use in web applications with requirements that extend beyond what can be achieved using standard financial algebra.
 
-A number of interactive usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the readme document that accompanies each demo as it will provide contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
+A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the readme document that accompanies each demo as it will provide contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
 
 Using the calculator couldn't be simpler, as demonstrated by the following 3-step example that solves for an unknown payment value.
 
@@ -48,6 +48,7 @@ or
 ```ts
 const aprResult = calc.solveRate(new EU200848EC());
 ```
+
 Finally, a quick explanation of the day count convention's referred to above. A day count convention is a key component of every financial calculation as it determines the method to be used in measuring the time interval between each cash flow in a series. There are dozens of convention's defined but the more important ones supported by this calculator are as follows:
 
 Convention | Description
@@ -56,6 +57,7 @@ Actual ISDA | Convention accounts for actual days between cash flow dates based 
 EU 30/360 | Convention accounts for days between cash flow dates based on a 30 day month, 360 day year as [documented here](https://en.wikipedia.org/wiki/Day_count_convention#30E/360). 
 EU 2008/48/EC | Convention based on the time periods between cash flow dates and the initial drawdown date, expressed in days and/or whole weeks, months or years. This convention is used specifically in APR (Annual Percentage Rate) consumer credit calculations within the European Union and is compliant with the EU2008/49/EC directive [available here](https://publications.europa.eu/en/publication-detail/-/publication/e4945793-f1f9-4527-8a2e-9060378fc302/language-en#).
 US 30/360 | Convention accounts for days between cash flow dates based on a 30 day month, 360 day year as  [documented here](https://en.wikipedia.org/wiki/Day_count_convention#30/360_US). This is the default convention used by the Hewlett Packard HP12C and similar financial calculators, so choose this convention if unsure as it is the defacto convention used in the majority of fixed-term credit calculations.
+
 
 By default all conventions, except EU 2008/48/EC, compute time intervals between cash flows with reference to the dates of adjacent cash flows. To perform XIRR (eXtended Internal Rate of Return) based calculations, where time intervals are computed with reference to the first drawdown date, simply pass the appropriate argument to the respective day count convention constructor (refer to code documentation for details).
 
@@ -66,7 +68,7 @@ When the Actual ISDA convention is used in this manner the XIRR result is identi
 To install the library as a project dependency use the following command:
 
 ```shell
-npm install --save curo-calculator
+npm install --save @curo/calculator
 ```
 
 ## Running Tests
@@ -96,4 +98,4 @@ To illustrate, suppose you needed to calculate the monthly repayments on a 10,00
 
 ![image](assets/cash-flow-diagram.png)
 
-To translate this data into a format understood by the calculator is now straightforward exercise - if the diagram looks vaguely familiar it is because it represents the unknown payment problem demonstrated in the 3-step code example above!
+To translate this data into a format understood by the calculator is now a straightforward exercise - if the diagram looks vaguely familiar it is because it represents the unknown payment problem demonstrated in the 3-step code example above!
