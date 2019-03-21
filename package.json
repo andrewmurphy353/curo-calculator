@@ -24,9 +24,9 @@
   "scripts": {
     "lint": "tslint --fix -p tsconfig.json",
     "type-check": "tsc --noEmit",
-    "build": "rollup -c",
-    "watch": "rollup -cw",
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "build": "npm test && rollup -c",
+    "watch": "rollup -cw"
   },
   "nyc": {
     "all": true,
