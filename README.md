@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/andrewmurphy353/curo-calculator.svg?branch=master)](https://travis-ci.org/andrewmurphy353/curo-calculator)
 [![Coverage Status](https://coveralls.io/repos/github/andrewmurphy353/curo-calculator/badge.svg?branch=master)](https://coveralls.io/github/andrewmurphy353/curo-calculator?branch=master)
 ![GitHub](https://img.shields.io/github/license/andrewmurphy353/curo-calculator.svg)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@curo/calculator.svg)
 
 A financial calculator for solving unknown cash flow values and unknown interest rates implicit in fixed-term instalment credit products, for example leasing, loans and hire purchase contracts [1].
 
@@ -9,7 +10,7 @@ A financial calculator for solving unknown cash flow values and unknown interest
 
 This calculator library is available as a Typescript package and supports features that are likely to be found only in commercially developed software. It has been designed for use in web applications with requirements that extend beyond what can be achieved using standard financial algebra.
 
-A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the readme document that accompanies each demo as it will provide contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
+A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the [readme](https://github.com/andrewmurphy353/curo-calculator-demo/blob/master/README.md) document that accompanies the demo as it provides contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
 
 Using the calculator couldn't be simpler, as demonstrated by the following 3-step example that solves for an unknown payment value.
 
