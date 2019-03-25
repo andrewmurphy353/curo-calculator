@@ -10,7 +10,7 @@ A financial calculator for solving unknown cash flow values and unknown interest
 
 This calculator library is available as a Typescript package and supports features that are likely to be found only in commercially developed software. It has been designed for use in web applications with requirements that extend beyond what can be achieved using standard financial algebra.
 
-A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the [readme](https://github.com/andrewmurphy353/curo-calculator-demo/blob/master/README.md) document that accompanies the demo as it provides contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
+A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the [demo README document](https://github.com/andrewmurphy353/curo-calculator-demo/blob/master/README.md) as it provides contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
 
 Using the calculator couldn't be simpler, as demonstrated by the following 3-step example that solves for an unknown payment value.
 
@@ -63,7 +63,7 @@ US 30/360 | Convention accounts for days between cash flow dates based on a 30 d
 
 By default all conventions, except EU 2008/48/EC, compute time intervals between cash flows with reference to the dates of adjacent cash flows. To perform XIRR (eXtended Internal Rate of Return) based calculations, where time intervals are computed with reference to the first drawdown date, simply pass the appropriate argument to the respective day count convention constructor (refer to code documentation for details).
 
-When the Actual ISDA convention is used in this manner the XIRR result is identical to that produced by the similar Microsoft Excel XIRR function.
+When the Actual ISDA convention is used in this manner the XIRR result is similar to that produced by the similar Microsoft Excel XIRR function (it only differs as Excel uses the Actual/365 convention which doesn't account for leap days).
 
 ## Installation
 
