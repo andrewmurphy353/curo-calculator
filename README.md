@@ -10,7 +10,7 @@ A financial calculator for solving unknown cash flow values and unknown interest
 
 This calculator library is available as a Typescript package and supports features that are likely to be found only in commercially developed software. It has been designed for use in web applications with requirements that extend beyond what can be achieved using standard financial algebra.
 
-A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide you with a quick and interactive introduction to various calculator features. Please refer to the [demo README document](https://github.com/andrewmurphy353/curo-calculator-demo/blob/master/README.md) as it provides contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
+A number of usage demos are [hosted at Stackblitz](https://stackblitz.com/@andrewmurphy353) to provide a quick and interactive introduction to various calculator features. Please refer to the [demo README](https://github.com/andrewmurphy353/curo-calculator-demo/blob/master/README.md) document at GitHub as it provides contextual information, additional configuration options, and a cash flow diagram [2] to help you visualise the inputs and unknowns in each calculation scenario.
 
 Using the calculator couldn't be simpler, as demonstrated by the following 3-step example that solves for an unknown payment value.
 
@@ -29,6 +29,7 @@ calc.add(
   SeriesPayment.builder()
     .setNumberOf(6)
     .setLabel("Instalment")
+    .setAmount(undefined) // or simply omit setter method 
     .setMode(Mode.Arrear)
     .build()
 );
@@ -36,11 +37,11 @@ calc.add(
 // Step 3. Calculate the unknown payment value
 const pmtResult = calc.solveValue(new US30360(), 0.0825);
 ```
-In this example you may have noticed that no payment value has been defined. This is intentional and is the approach you must follow when defining the unknown cash flow values you wish to calculate.
+In this example you may have noticed that the payment series amount is `undefined`. This is intentional and is the approach you must follow when defining the unknown cash flow values you wish to calculate.
 
-In the final step we invoke the solveValue(...) method, passing in a day count convention instance and the annual interest rate to use in the calculation, expressed as a decimal. In case you are wondering the payment result returned equals 1707.00, a result which is easy to verify in Microsoft Excel.
+In the final step we invoke the `solveValue(...)` method, passing in a day count convention instance and the annual interest rate to use in the calculation, expressed as a decimal.
 
-Computing the interest rate implicit in a cash flow series similarly follows the same 3-step process, except you must specify all the cash flow series values, and then pass in an appropriate day count convention instance to the solveRate(...) method, for example:
+To determine the interest rate implicit in a series containing known cash flow values, simply pass in an appropriate day count convention instance to the `solveRate(...)` method, for example:
 
 ```ts
 const irrResult = calc.solveRate(new US30360());
@@ -56,14 +57,14 @@ Finally, a quick explanation of the day count convention's referred to above. A 
 Convention | Description
 -----------| -------------
 Actual ISDA | Convention accounts for actual days between cash flow dates based on the portion in a leap year and the portion in a non-leap year as [documented here](https://en.wikipedia.org/wiki/Day_count_convention#Actual/Actual_ISDA).
+Actual/365 | Convention accounts for actual days between cash flow dates and considers a year to have 365 days as [documented here](https://en.wikipedia.org/wiki/Day_count_convention#Actual/365_Fixed).
 EU 30/360 | Convention accounts for days between cash flow dates based on a 30 day month, 360 day year as [documented here](https://en.wikipedia.org/wiki/Day_count_convention#30E/360). 
 EU 2008/48/EC | Convention based on the time periods between cash flow dates and the initial drawdown date, expressed in days and/or whole weeks, months or years. This convention is used specifically in APR (Annual Percentage Rate) consumer credit calculations within the European Union and is compliant with the EU2008/49/EC directive [available here](https://publications.europa.eu/en/publication-detail/-/publication/e4945793-f1f9-4527-8a2e-9060378fc302/language-en#).
 US 30/360 | Convention accounts for days between cash flow dates based on a 30 day month, 360 day year as  [documented here](https://en.wikipedia.org/wiki/Day_count_convention#30/360_US). This is the default convention used by the Hewlett Packard HP12C and similar financial calculators, so choose this convention if unsure as it is the defacto convention used in the majority of fixed-term credit calculations.
 
+By default all conventions, except EU 2008/48/EC, compute time intervals between cash flows with reference to the dates of adjacent cash flows.
 
-By default all conventions, except EU 2008/48/EC, compute time intervals between cash flows with reference to the dates of adjacent cash flows. To perform XIRR (eXtended Internal Rate of Return) based calculations, where time intervals are computed with reference to the first drawdown date, simply pass the appropriate argument to the respective day count convention constructor (refer to code documentation for details).
-
-When the Actual ISDA convention is used in this manner the XIRR result is similar to that produced by the similar Microsoft Excel XIRR function (it only differs as Excel uses the Actual/365 convention which doesn't account for leap days).
+To perform XIRR (eXtended Internal Rate of Return) based calculations, where time intervals are computed with reference to the first drawdown date, simply pass the appropriate argument to the respective day count convention constructor (refer to code documentation for details). When the Actual/365 convention is used in this manner the XIRR result equals that produced by the equivalent Microsoft Excel XIRR function.
 
 ## Installation
 
