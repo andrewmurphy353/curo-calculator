@@ -33,8 +33,7 @@ export default class ActISDA extends Convention {
    * For non-compound interest calculations, such as solving for unknowns on the
    * basis of an eXtended Internal Rate of Return (XIRR), set the useXirrMethod
    * constructor parameter to *true*. With this setup the day count is calculated
-   * with reference to the first cash flow date in the series, in much the same
-   * way as the Microsoft Excel XIRR function does.
+   * with reference to the first cash flow date in the series.
    *
    * @param usePostingDates (optional) defines whether the day count between
    * cash flows is computed using cash flow posting dates (true), or alternatively
