@@ -1,6 +1,6 @@
+import DateUtils from "../utils/date-utils";
 import Convention from "./convention";
 import DayCountFactor from "./day-count-factor";
-import DateUtils from "../utils/date-utils";
 
 /**
  * The Actual/365 day count convention which specifies that the number of days in the
@@ -68,7 +68,7 @@ export default class Act365 extends Convention {
         const numerator: number = DateUtils.actualDays(d1, d2);
         const factor: number = numerator / 365;
 
-        let periodFactor: DayCountFactor = new DayCountFactor(factor);
+        const periodFactor: DayCountFactor = new DayCountFactor(factor);
         periodFactor.logOperands(numerator, 365);
 
         return periodFactor;

@@ -4,7 +4,7 @@ import { SeriesType } from "./series-type";
 
 /**
  * A generic class containing a superset of cash flow series properties.
- * 
+ *
  * This class should not be instantiated directly. Use the SeriesAdvance, SeriesCharge
  * and SeriesPayment classes to build the respective series.
  */

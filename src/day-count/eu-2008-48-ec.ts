@@ -76,7 +76,7 @@ export default class EU200848EC extends Convention {
    * expressed in whole periods, the interval is expressed in whole periods and remaining
    * number of days divided by 365 (or 366 in a leap-year), calculated *backwards* from the
    * cash flow date to the initial drawdown date.
-   * 
+   *
    * @param d1 the initial drawdown date
    * @param d2 posting date of the cash flow
    */

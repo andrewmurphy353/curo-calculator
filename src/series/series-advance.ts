@@ -6,7 +6,7 @@ import { SeriesType } from "./series-type";
 /**
  * A series of one or more advances paid out by a lender. This could comprise a series of
  * amounts loaned to a borrower, a lessor's net investment in a lease agreement, etc.
- * 
+ *
  * This class implements the builder pattern to provide a fluent-type API.
  */
 export default class SeriesAdvance {
@@ -26,7 +26,7 @@ export default class SeriesAdvance {
   /**
    * The label assigned to each cash flow in the series. Used to annotate
    * each cash flow in an amortisation schedule or calculation proof.
-   * 
+   *
    * @param label containing localised text in singular form e.g. 'Loan advance'
    */
   public setLabel(label: string): this {
@@ -36,7 +36,7 @@ export default class SeriesAdvance {
 
   /**
    * The total number of advances in the series. Default is 1.
-   * 
+   *
    * @param numberOf determining total number of cash flows in series
    * @throws error when numberOf argument is less than 1
    */
@@ -51,7 +51,7 @@ export default class SeriesAdvance {
   /**
    * The value of the one or more advances in the series. Leave the amount
    * undefined if it is to be solved.
-   * 
+   *
    * @param amount to assign to each cash flow object created.
    */
   public setAmount(amount: number): this {
@@ -79,12 +79,12 @@ export default class SeriesAdvance {
    * to fall on or after the setDrawdownFrom date. Subsequent advance settlement dates
    * are determined with reference to this date *and* are offset by the interval
    * defined by the series frequency.
-   * 
+   *
    * The series value date will usually differ from the posted date only when the
    * advance series models a deferred settlement scheme.
-   * 
+   *
    * If the date is not defined it will share the same setDrawdownFrom date.
-   * 
+   *
    * @param settlement value date of the first cash flow in the series
    */
   public setSettlementOn(settlement: Date): this {
@@ -94,7 +94,7 @@ export default class SeriesAdvance {
 
   /**
    * The compounding frequency of recurring advances in the series.
-   * 
+   *
    * @param frequency of the one or more advance cash flows in the series.
    */
   public setFrequency(frequency: Frequency): this {
@@ -104,7 +104,7 @@ export default class SeriesAdvance {
 
   /**
    * The mode of recurring advances in the series.
-   * 
+   *
    * @param mode of the one or more advance cash flows in the series
    */
   public setMode(mode: Mode) {
@@ -115,7 +115,7 @@ export default class SeriesAdvance {
   /**
    * The weighting of unknown advance series values relative to other unknown advance
    * series values.
-   * 
+   *
    * @param weighting to apply to the advance cash flows in the series
    * @throws error when weighting value is zero or negative
    */
@@ -131,7 +131,7 @@ export default class SeriesAdvance {
 
   /**
    * Method provides a reference to the populated instance once input has been validated.
-   * 
+   *
    */
   public build(): Series {
     if (

@@ -100,7 +100,7 @@ export default class ActISDA extends Convention {
 
       periodFactor = new DayCountFactor(factor);
       periodFactor.logOperands(numerator, 365.0);
-      
+
     } else {
       /*
        * There is a leap year in the date range so split factor calculation.

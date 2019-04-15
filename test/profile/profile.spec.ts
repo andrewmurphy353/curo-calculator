@@ -449,11 +449,11 @@ describe("Profile updateValues with rounding (2dp by default)", () => {
 
 describe("Profile updateAmortInt", () => {
     let prof = new Profile([
-        new CashFlowAdvance(new Date(2019,0,1), new Date(2019,0,1), 1000.0), // ignored
-        new CashFlowCharge(new Date(2019,0,1), 10.0), // ignored
-        new CashFlowPayment(new Date(2019,1,1), 340.02, undefined, false),
-        new CashFlowPayment(new Date(2019,2,1), 340.02, undefined, false),
-        new CashFlowPayment(new Date(2019,3,1), 340.02)
+        new CashFlowAdvance(new Date(2019, 0, 1), new Date(2019, 0, 1), 1000.0), // ignored
+        new CashFlowCharge(new Date(2019, 0, 1), 10.0), // ignored
+        new CashFlowPayment(new Date(2019, 1, 1), 340.02, undefined, false),
+        new CashFlowPayment(new Date(2019, 2, 1), 340.02, undefined, false),
+        new CashFlowPayment(new Date(2019, 3, 1), 340.02)
     ]);
     prof.assignFactors(new US30360());
     prof.updateAmortInt(0.12);

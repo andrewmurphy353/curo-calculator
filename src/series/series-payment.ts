@@ -5,7 +5,7 @@ import { SeriesType } from "./series-type";
 
 /**
  * A series of one or more loan payments, lease rentals, etc., received by a lender.
- * 
+ *
  * This class implements the builder pattern to provide a fluent-type API.
  */
 export default class SeriesPayment {
@@ -25,7 +25,7 @@ export default class SeriesPayment {
   /**
    * The label assigned to each cash flow in the series. Used to annotate
    * each cash flow in an amortisation schedule or calculation proof.
-   * 
+   *
    * @param label containing localised text in singular form e.g. 'Rental' (not 'Rentals')
    */
   public setLabel(label: string): this {
@@ -35,7 +35,7 @@ export default class SeriesPayment {
 
   /**
    * The total number of advances in the series. Default is 1.
-   * 
+   *
    * @param numberOf determining total number of cash flows in series
    * @throws error when numberOf argument is less than 1
    */
@@ -50,7 +50,7 @@ export default class SeriesPayment {
   /**
    * The value of the one or more advances in the series. Leave the amount
    * undefined if it is to be solved.
-   * 
+   *
    * @param amount to assign to each cash flow object created.
    */
   public setAmount(amount: number): this {
@@ -75,7 +75,7 @@ export default class SeriesPayment {
 
   /**
    * The compounding frequency of recurring advances in the series.
-   * 
+   *
    * @param frequency of the one or more advance cash flows in the series.
    */
   public setFrequency(frequency: Frequency): this {
@@ -85,7 +85,7 @@ export default class SeriesPayment {
 
   /**
    * The mode of recurring payments in the series.
-   * 
+   *
    * @param mode of the one or more payment cash flows in the series
    */
   public setMode(mode: Mode) {
@@ -96,7 +96,7 @@ export default class SeriesPayment {
   /**
    * The weighting of unknown payment series values relative to other unknown advance
    * series values.
-   * 
+   *
    * @param weighting to apply to the payment cash flows in the series
    * @throws error when weighting value is zero or negative
    */
@@ -114,7 +114,7 @@ export default class SeriesPayment {
    * Flag determines whether interest is to be compounded in line with the frequency of this
    * payment series or not. Useful in defining payment series where interest is compounded at
    * a different frequency e.g. monthly payments with quarterly compound interest.
-   * 
+   *
    * @param isIntCap
    */
   public setIsIntCap(isIntCap: boolean): this {

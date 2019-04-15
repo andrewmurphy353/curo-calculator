@@ -8,7 +8,7 @@ import { SeriesType } from "./series-type";
  * that do not affect the computation of unknown advance or payment cash flow values, but may affect
  * the computation of implicit interest rates such as Annual Percantage Rates (APRs), as documented
  * elsewhere.
- * 
+ *
  * This class implements the builder pattern to provide a fluent-type API.
  */
 export default class SeriesCharge {
@@ -28,7 +28,7 @@ export default class SeriesCharge {
   /**
    * The label assigned to each cash flow in the series. Used to annotate
    * each cash flow in an amortisation schedule or calculation proof.
-   * 
+   *
    * @param label containing localised  text in singular form e.g. 'Arrangement
    * fee' (not 'Arrangement fees')
    */
@@ -53,7 +53,7 @@ export default class SeriesCharge {
 
   /**
    * The value of the one or more charges in the series.
-   * 
+   *
    * @param amount to assign to each cash flow object created.
    */
   public setAmount(amount: number): this {
@@ -78,7 +78,7 @@ export default class SeriesCharge {
 
   /**
    * The frequency of recurring charges in the series.
-   * 
+   *
    * @param frequency of the one or more charge cash flows in the series.
    */
   public setFrequency(frequency: Frequency): this {
@@ -88,7 +88,7 @@ export default class SeriesCharge {
 
   /**
    * The mode of recurring charges in the series.
-   * 
+   *
    * @param mode of the one or more charge cash flows in the series
    */
   public setMode(mode: Mode) {
@@ -97,7 +97,7 @@ export default class SeriesCharge {
   }
 
   /**
-   * Method provides a reference to the populated instance after all user 
+   * Method provides a reference to the populated instance after all user
    * input has been captured.
    */
   public build(): Series {

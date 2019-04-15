@@ -17,7 +17,7 @@ import { SeriesType } from "./series-type";
  * occurs at the beginning or end of the period defined by the frequency.
  *
  * Where the start dates of two or more series of the same type are *defined* it is possible the
- * respective cash flow series may overlap. This is intentional to allow for the creation of 
+ * respective cash flow series may overlap. This is intentional to allow for the creation of
  * advanced cash flow profiles.
  *
  * Where the start dates of two or more series of the same type are *undefined*, the start date of
