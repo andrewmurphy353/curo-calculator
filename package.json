@@ -1,6 +1,6 @@
 {
   "name": "@curo/calculator",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "A feature-rich library for performing simple to advanced instalment credit financial calculations.",
   "keywords": [
     "finance calculator",
@@ -8,6 +8,9 @@
     "leasing",
     "loans",
     "hire purchase",
+    "irr",
+    "xirr",
+    "apr",
     "typescript"
   ],
   "repository": {
@@ -64,10 +67,10 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
     "mocha": "^5.2.0",
-    "nyc": "^13.2.0",
+    "nyc": "^13.3.0",
     "rollup": "^1.1.2",
     "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-typescript2": "^0.19.2",
+    "rollup-plugin-typescript2": "^0.20.1",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "typescript": "^3.3.3"
