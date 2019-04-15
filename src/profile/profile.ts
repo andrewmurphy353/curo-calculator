@@ -101,7 +101,7 @@ export default class Profile {
   }
 
   /**
-   * The value date of the *first drawdown*. This date is ecpected to occur on or
+   * The value date of the *first drawdown*. This date is expected to occur on or
    * after the drawdown posting date and is used specifically in deferred settlement
    * calculations.
    */
@@ -237,75 +237,38 @@ export default class Profile {
    * implementation provided.
    */
   private computeFactors(): void {
-    let currDate: Date;
+    const drawdownDate = this.dayCount.usePostingDates() ? this._drawdownPDate : this._drawdownVDate;
+    let cashFlowDate: Date;
+    let neighbourDate: Date | undefined;
 
-    switch (this._dayCount.dayCountRef()) {
-      case Convention.DRAWDOWN:
-        for (const cashFlow of this._cashFlows) {
-          currDate = this.dayCount.usePostingDates()
-            ? cashFlow.postingDate
-            : cashFlow.valueDate;
+    for (const cashFlow of this._cashFlows) {
 
-          if (
-            cashFlow instanceof CashFlowCharge && !this.dayCount.inclNonFinFlows()
-          ) {
-            cashFlow.periodFactor = this.dayCount.computeFactor(
-              currDate,
-              currDate
-            );
-            continue;
-          }
-          cashFlow.periodFactor = this.dayCount.computeFactor(
-            this._drawdownPDate,
-            currDate
-          );
+      cashFlowDate = this.dayCount.usePostingDates() ? cashFlow.postingDate : cashFlow.valueDate;
+      if (neighbourDate === undefined) {
+        neighbourDate = cashFlowDate;
+      }
+
+      if (cashFlow instanceof CashFlowCharge && !this.dayCount.inclNonFinFlows()) {
+        cashFlow.periodFactor = this.dayCount.computeFactor(cashFlowDate, cashFlowDate);
+        continue;
+      }
+
+      if (cashFlowDate <= drawdownDate) {
+        // CashFlow predates initial drawdown so period factor is zero
+        cashFlow.periodFactor = this.dayCount.computeFactor(cashFlowDate, cashFlowDate);
+
+      } else {
+        switch (this._dayCount.dayCountRef()) {
+          case Convention.DRAWDOWN:
+            cashFlow.periodFactor = this.dayCount.computeFactor(drawdownDate, cashFlowDate);
+            break;
+          case Convention.NEIGHBOUR:
+          default:
+            cashFlow.periodFactor = this.dayCount.computeFactor(neighbourDate, cashFlowDate);
+            neighbourDate = cashFlowDate;
+            break;
         }
-        break;
-
-      case Convention.NEIGHBOUR:
-      default:
-        let prevDate: Date | undefined;
-
-        for (const cashFlow of this._cashFlows) {
-          currDate = this.dayCount.usePostingDates()
-            ? cashFlow.postingDate
-            : cashFlow.valueDate;
-
-          if (
-            cashFlow instanceof CashFlowCharge && !this.dayCount.inclNonFinFlows()
-          ) {
-            cashFlow.periodFactor = this.dayCount.computeFactor(
-              currDate,
-              currDate
-            );
-            continue;
-          }
-
-          if (prevDate === undefined) {
-            // Initialise first cash flow with zero factor
-            cashFlow.periodFactor = this.dayCount.computeFactor(
-              currDate,
-              currDate
-            );
-          } else if (
-            !this.dayCount.usePostingDates() &&
-            currDate <= this._drawdownVDate
-          ) {
-            // Factor will be zero for subsequent cash flows when using value dates
-            // *and* where date is earlier or equal to the initial discount date
-            cashFlow.periodFactor = this.dayCount.computeFactor(
-              currDate,
-              currDate
-            );
-          } else {
-            cashFlow.periodFactor = this.dayCount.computeFactor(
-              prevDate,
-              currDate
-            );
-          }
-          prevDate = currDate;
-        }
-        break;
+      }
     }
   }
 }
