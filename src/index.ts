@@ -1,6 +1,7 @@
 // Calculator - standard API
 export { default as Calculator } from "./core/calculator";
 export { default as Convention } from "./day-count/convention";
+export { default as Act365 } from "./day-count/act-365";
 export { default as ActISDA } from "./day-count/act-isda";
 export { default as EU200848EC } from "./day-count/eu-2008-48-ec";
 export { default as EU30360 } from "./day-count/eu-30-360";
