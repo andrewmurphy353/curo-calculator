@@ -2,6 +2,8 @@
 
 ## Change log
 
+### 1.1.4
+- Updated development dependencies with reported security vulnerabilities
 ### 1.1.3
 - Added Actual/365 day count convention to index.ts exports
 ### 1.1.2 (15/4/2019)
