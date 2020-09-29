@@ -1,5 +1,5 @@
 # Curo Calculator
-[![Build Status](https://travis-ci.org/andrewmurphy353/curo-calculator.svg?branch=master)](https://travis-ci.org/andrewmurphy353/curo-calculator)
+[![Build Status](https://travis-ci.com/andrewmurphy353/curo-calculator.svg?branch=master)](https://travis-ci.com/andrewmurphy353/curo-calculator)
 [![Coverage Status](https://coveralls.io/repos/github/andrewmurphy353/curo-calculator/badge.svg?branch=master)](https://coveralls.io/github/andrewmurphy353/curo-calculator?branch=master)
 ![GitHub](https://img.shields.io/github/license/andrewmurphy353/curo-calculator.svg)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@curo/calculator.svg)
