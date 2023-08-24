@@ -1,12 +1,12 @@
 import typescript from "rollup-plugin-typescript2";
 import clear from "rollup-plugin-clear";
-import pkg from "./package.json";
+import pkg from "./package.json" assert {type: 'json'};
 
 export default {
   input: "src/index.ts",
   plugins: [
     clear({
-      targets: [".rpt2_cache", "dist"]
+      targets: ["dist"]
     }),
     typescript({
       typescript: require("typescript"),
@@ -26,4 +26,4 @@ export default {
       format: "es"
     }
   ]
-};
+}; 
