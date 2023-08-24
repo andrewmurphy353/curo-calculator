@@ -1,0 +1,5 @@
+
+require: 'ts-node/register/transpile-only'
+recursive: true
+spec:
+  - 'test/**/*.spec.ts'
