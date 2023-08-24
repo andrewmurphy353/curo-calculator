@@ -1,7 +1,10 @@
 # Curo Calculator
 
 ## Change log
-
+### 2.0.0
+- Major upgrade of development environment and dependencies.
+- Clean-up of library code to satisfy new lint requirements.
+- CI migrated to GitHub and code coverage to Coveralls
 ### 1.1.4
 - Updated development dependencies with reported security vulnerabilities
 ### 1.1.3
