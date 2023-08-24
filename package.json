@@ -27,9 +27,8 @@
   "scripts": {
     "lint": "eslint --fix ./src/**/*.ts",
     "type-check": "tsc --noEmit",
-    "test": "mocha",
-    "coverage": "nyc npm run test",
-    "build": "npm run coverage && rollup -c --bundleConfigAsCjs"
+    "test": "nyc mocha",
+    "build": "npm run test && rollup -c --bundleConfigAsCjs"
   },
   "nyc": {
     "all": true,
