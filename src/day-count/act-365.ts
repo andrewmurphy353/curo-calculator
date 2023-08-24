@@ -1,6 +1,6 @@
-import DateUtils from "../utils/date-utils";
-import Convention from "./convention";
-import DayCountFactor from "./day-count-factor";
+import DateUtils from '../utils/date-utils'
+import Convention from './convention'
+import DayCountFactor from './day-count-factor'
 
 /**
  * The Actual/365 day count convention which specifies that the number of days in the
@@ -10,11 +10,11 @@ import DayCountFactor from "./day-count-factor";
  * This convention is also known as "Act/365 Fixed"
  */
 export default class Act365 extends Convention {
-    private _usePostingDates: boolean;
-    private _inclNonFinFlows: boolean;
-    private _dayCountRef: string;
+  private readonly _usePostingDates: boolean
+  private readonly _inclNonFinFlows: boolean
+  private readonly _dayCountRef: string
 
-    /**
+  /**
      * Provides an instance of the Act/365 day count convention object.
      *
      * The default day count instance is suitable for use in all compound interest
@@ -37,40 +37,40 @@ export default class Act365 extends Convention {
      * @param useXirrMethod (optional) determines whether to use the XIRR method
      * of determining time periods between cash flow dates (true). Default is false.
      */
-    constructor(
-        usePostingDates: boolean = true,
-        inclNonFinFlows: boolean = false,
-        useXirrMethod: boolean = false
-    ) {
-        super();
-        this._usePostingDates = usePostingDates;
-        this._inclNonFinFlows = inclNonFinFlows;
-        if (useXirrMethod) {
-            this._dayCountRef = Act365.DRAWDOWN;
-        } else {
-            this._dayCountRef = Act365.NEIGHBOUR;
-        }
+  constructor (
+    usePostingDates = true,
+    inclNonFinFlows = false,
+    useXirrMethod = false
+  ) {
+    super()
+    this._usePostingDates = usePostingDates
+    this._inclNonFinFlows = inclNonFinFlows
+    if (useXirrMethod) {
+      this._dayCountRef = Act365.DRAWDOWN
+    } else {
+      this._dayCountRef = Act365.NEIGHBOUR
     }
+  }
 
-    public dayCountRef(): string {
-        return this._dayCountRef;
-    }
+  public dayCountRef (): string {
+    return this._dayCountRef
+  }
 
-    public usePostingDates(): boolean {
-        return this._usePostingDates;
-    }
+  public usePostingDates (): boolean {
+    return this._usePostingDates
+  }
 
-    public inclNonFinFlows(): boolean {
-        return this._inclNonFinFlows;
-    }
+  public inclNonFinFlows (): boolean {
+    return this._inclNonFinFlows
+  }
 
-    public computeFactor(d1: Date, d2: Date): DayCountFactor {
-        const numerator: number = DateUtils.actualDays(d1, d2);
-        const factor: number = numerator / 365;
+  public computeFactor (d1: Date, d2: Date): DayCountFactor {
+    const numerator: number = DateUtils.actualDays(d1, d2)
+    const factor: number = numerator / 365
 
-        const periodFactor: DayCountFactor = new DayCountFactor(factor);
-        periodFactor.logOperands(numerator, 365);
+    const periodFactor: DayCountFactor = new DayCountFactor(factor)
+    periodFactor.logOperands(numerator, 365)
 
-        return periodFactor;
-    }
+    return periodFactor
+  }
 }

@@ -1,6 +1,6 @@
-import DateUtils from "../utils/date-utils";
-import Convention from "./convention";
-import DayCountFactor from "./day-count-factor";
+import DateUtils from '../utils/date-utils'
+import Convention from './convention'
+import DayCountFactor from './day-count-factor'
 
 /**
  * The European Union Directive 2008/48/EC (Consumer Credit Directive) day count
@@ -17,12 +17,12 @@ import DayCountFactor from "./day-count-factor";
  * @author Andrew Murphy
  */
 export default class EU200848EC extends Convention {
-  public static YEAR: string = "year";
-  public static MONTH: string = "month";
-  public static WEEK: string = "week";
-  private _frequency: string;
+  public static YEAR = 'year'
+  public static MONTH = 'month'
+  public static WEEK = 'week'
+  private readonly _frequency: string
   /** Periods in year */
-  private _periodsInYr: number;
+  private readonly _periodsInYr: number
 
   /**
    * Provides an instance of the 2008/48/EC day count convention object
@@ -35,39 +35,39 @@ export default class EU200848EC extends Convention {
    * drawdowns and payments within the cash flow series. Refer to the
    * directive for further guidance. Default is 'month' if undefined.
    */
-  constructor(frequency: string = EU200848EC.MONTH) {
-    super();
+  constructor (frequency: string = EU200848EC.MONTH) {
+    super()
     switch (frequency) {
       case EU200848EC.YEAR:
-        this._frequency = EU200848EC.YEAR;
-        this._periodsInYr = 1;
-        break;
+        this._frequency = EU200848EC.YEAR
+        this._periodsInYr = 1
+        break
       case EU200848EC.WEEK:
-        this._frequency = EU200848EC.WEEK;
-        this._periodsInYr = 52;
-        break;
+        this._frequency = EU200848EC.WEEK
+        this._periodsInYr = 52
+        break
       case EU200848EC.MONTH:
       default:
-        this._frequency = EU200848EC.MONTH;
-        this._periodsInYr = 12;
-        break;
+        this._frequency = EU200848EC.MONTH
+        this._periodsInYr = 12
+        break
     }
   }
 
-  public frequency(): string {
-    return this._frequency;
+  public frequency (): string {
+    return this._frequency
   }
 
-  public dayCountRef(): string {
-    return EU200848EC.DRAWDOWN;
+  public dayCountRef (): string {
+    return EU200848EC.DRAWDOWN
   }
 
-  public usePostingDates(): boolean {
-    return true;
+  public usePostingDates (): boolean {
+    return true
   }
 
-  public inclNonFinFlows(): boolean {
-    return true;
+  public inclNonFinFlows (): boolean {
+    return true
   }
 
   /**
@@ -80,54 +80,54 @@ export default class EU200848EC extends Convention {
    * @param d1 the initial drawdown date
    * @param d2 posting date of the cash flow
    */
-  public computeFactor(d1: Date, d2: Date): DayCountFactor {
+  public computeFactor (d1: Date, d2: Date): DayCountFactor {
     // Compute whole periods
-    let wholePeriods: number = 0;
-    let startWholePeriod: Date = d2;
+    let wholePeriods = 0
+    let startWholePeriod: Date = d2
     while (true) {
-      let tempDate: Date;
+      let tempDate: Date
       switch (this._frequency) {
         case EU200848EC.YEAR:
-          tempDate = DateUtils.rollMonth(startWholePeriod, -12);
-          break;
+          tempDate = DateUtils.rollMonth(startWholePeriod, -12)
+          break
         case EU200848EC.WEEK:
-          tempDate = DateUtils.rollDay(startWholePeriod, -7);
-          break;
+          tempDate = DateUtils.rollDay(startWholePeriod, -7)
+          break
         case EU200848EC.MONTH:
         default:
-          tempDate = DateUtils.rollMonth(startWholePeriod, -1);
-          break;
+          tempDate = DateUtils.rollMonth(startWholePeriod, -1)
+          break
       }
       if (tempDate >= d1) {
-        startWholePeriod = tempDate;
-        wholePeriods++;
+        startWholePeriod = tempDate
+        wholePeriods++
       } else {
-        break;
+        break
       }
     }
-    const periodFactor: DayCountFactor = new DayCountFactor(0);
-    let factor: number = 0;
+    const periodFactor: DayCountFactor = new DayCountFactor(0)
+    let factor = 0
     if (wholePeriods > 0) {
-      factor = wholePeriods / this._periodsInYr;
-      periodFactor.factor = factor;
-      periodFactor.logOperands(wholePeriods, this._periodsInYr);
+      factor = wholePeriods / this._periodsInYr
+      periodFactor.factor = factor
+      periodFactor.logOperands(wholePeriods, this._periodsInYr)
     }
 
     // Compute days remaining if necessary
     if (startWholePeriod >= d1) {
-      const numerator: number = DateUtils.actualDays(d1, startWholePeriod);
-      const startDenPeriod: Date = DateUtils.rollMonth(startWholePeriod, -12);
+      const numerator: number = DateUtils.actualDays(d1, startWholePeriod)
+      const startDenPeriod: Date = DateUtils.rollMonth(startWholePeriod, -12)
       const denominator: number = DateUtils.actualDays(
         startDenPeriod,
         startWholePeriod
-      );
-      periodFactor.factor = factor + numerator / denominator;
+      )
+      periodFactor.factor = factor + numerator / denominator
 
       if (numerator > 0 || periodFactor.operandLog.length === 0) {
-        periodFactor.logOperands(numerator, denominator);
+        periodFactor.logOperands(numerator, denominator)
       }
     }
 
-    return periodFactor;
+    return periodFactor
   }
 }

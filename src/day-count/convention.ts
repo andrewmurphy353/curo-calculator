@@ -1,4 +1,4 @@
-import DayCountFactor from "./day-count-factor";
+import type DayCountFactor from './day-count-factor'
 
 /**
  * Defines the contract for day count convention concrete implementations.
@@ -7,9 +7,9 @@ import DayCountFactor from "./day-count-factor";
  */
 export default abstract class Convention {
   /** Days in a period are counted with reference to the initial draw-down date */
-  public static DRAWDOWN: string = "drawdown";
+  public static DRAWDOWN = 'drawdown'
   /** Days in a period are counted with reference to a neighbouring cash-flow date */
-  public static NEIGHBOUR: string = "neighbour";
+  public static NEIGHBOUR = 'neighbour'
 
   /**
    * The day count reference method defining whether a day count should
@@ -21,7 +21,7 @@ export default abstract class Convention {
    * compounding period between cash flows and is the common use case when solving
    * unknown values and/or implicit effective interest rates.
    */
-  public abstract dayCountRef(): string;
+  public abstract dayCountRef (): string
 
   /**
    * Defines whether the day count between cash flows is computed
@@ -34,7 +34,7 @@ export default abstract class Convention {
    * advances is deferred in 0% and low interest rate promotions
    * underwritten for third-party equipment suppliers.
    */
-  public abstract usePostingDates(): boolean;
+  public abstract usePostingDates (): boolean
 
   /**
    * Determines whether non-financing cash flows, such as charges or
@@ -50,7 +50,7 @@ export default abstract class Convention {
    * it is important that the cash flow profile only incorporates those charges
    * which are required to be included in the APR calculation.
    */
-  public abstract inclNonFinFlows(): boolean;
+  public abstract inclNonFinFlows (): boolean
 
   /**
    * Computes the periodic factor for a given day count convention.
@@ -58,5 +58,5 @@ export default abstract class Convention {
    * @param d1 the earlier of two dates
    * @param d2 the later of two dates
    */
-  public abstract computeFactor(d1: Date, d2: Date): DayCountFactor;
+  public abstract computeFactor (d1: Date, d2: Date): DayCountFactor
 }

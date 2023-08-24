@@ -1,4 +1,4 @@
-import MathUtils from "../utils/math-utils";
+import MathUtils from '../utils/math-utils'
 
 /**
  * The day count factor applied to the associated cash flow.
@@ -6,24 +6,24 @@ import MathUtils from "../utils/math-utils";
  * @author Andrew Murphy
  */
 export default class DayCountFactor {
-  private _factor: number;
-  private _operandLog: string[];
+  private _factor: number
+  private readonly _operandLog: string[]
 
-  constructor(factor: number = 0) {
-    this._factor = factor;
-    this._operandLog = [];
+  constructor (factor = 0) {
+    this._factor = factor
+    this._operandLog = []
   }
 
-  get factor(): number {
-    return this._factor;
+  get factor (): number {
+    return this._factor
   }
 
-  set factor(factor: number) {
-    this._factor = factor;
+  set factor (factor: number) {
+    this._factor = factor
   }
 
-  get operandLog(): string[] {
-    return this._operandLog;
+  get operandLog (): string[] {
+    return this._operandLog
   }
 
   /**
@@ -36,8 +36,8 @@ export default class DayCountFactor {
    * @param denom the denominator corresponding to the number of days, weeks or months
    * in a year
    */
-  public logOperands(numer: number, denom: number): void {
-    this._operandLog.push(`(${numer}/${denom})`);
+  public logOperands (numer: number, denom: number): void {
+    this._operandLog.push(`(${numer}/${denom})`)
   }
 
   /**
@@ -45,18 +45,18 @@ export default class DayCountFactor {
    * with the factor displayed to 8 decimal points
    * e.g. '(31/360) = 0.08611111'
    */
-  get toString(): string {
-    let displayText = "";
+  get toString (): string {
+    let displayText = ''
     for (let i = 0; i < this._operandLog.length; i++) {
-      displayText = displayText.concat(this._operandLog[i]);
+      displayText = displayText.concat(this._operandLog[i])
       if (i + 1 !== this._operandLog.length) {
-        displayText = displayText.concat(" + ");
+        displayText = displayText.concat(' + ')
       }
     }
-    displayText = displayText.concat(" = ");
+    displayText = displayText.concat(' = ')
     displayText = displayText.concat(
       MathUtils.gaussRound(this.factor, 8).toFixed(8)
-    );
-    return displayText.toString();
+    )
+    return displayText.toString()
   }
 }

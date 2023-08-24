@@ -1,7 +1,7 @@
-import { Frequency } from "./frequency";
-import { Mode } from "./mode";
-import Series from "./series";
-import { SeriesType } from "./series-type";
+import { type Frequency } from './frequency'
+import { type Mode } from './mode'
+import Series from './series'
+import { SeriesType } from './series-type'
 
 /**
  * A series of one or more loan payments, lease rentals, etc., received by a lender.
@@ -12,14 +12,14 @@ export default class SeriesPayment {
   /**
    * Instantiates a default instance of this class to capture user-defined input
    */
-  public static builder(): SeriesPayment {
-    return new SeriesPayment();
+  public static builder (): SeriesPayment {
+    return new SeriesPayment()
   }
 
-  private _seriesPayment: Series;
+  private readonly _seriesPayment: Series
 
-  private constructor() {
-    this._seriesPayment = new Series(SeriesType.Payment);
+  private constructor () {
+    this._seriesPayment = new Series(SeriesType.Payment)
   }
 
   /**
@@ -28,9 +28,9 @@ export default class SeriesPayment {
    *
    * @param label containing localised text in singular form e.g. 'Rental' (not 'Rentals')
    */
-  public setLabel(label: string): this {
-    this._seriesPayment.label = label;
-    return this;
+  public setLabel (label: string): this {
+    this._seriesPayment.label = label
+    return this
   }
 
   /**
@@ -39,12 +39,12 @@ export default class SeriesPayment {
    * @param numberOf determining total number of cash flows in series
    * @throws error when numberOf argument is less than 1
    */
-  public setNumberOf(numberOf: number): this {
+  public setNumberOf (numberOf: number): this {
     if (numberOf < 1) {
-      throw new Error("The numberOf value must be 1 or greater");
+      throw new Error('The numberOf value must be 1 or greater')
     }
-    this._seriesPayment.numberOf = numberOf;
-    return this;
+    this._seriesPayment.numberOf = numberOf
+    return this
   }
 
   /**
@@ -53,9 +53,9 @@ export default class SeriesPayment {
    *
    * @param amount to assign to each cash flow object created.
    */
-  public setAmount(amount: number): this {
-    this._seriesPayment.amount = amount;
-    return this;
+  public setAmount (amount: number): this {
+    this._seriesPayment.amount = amount
+    return this
   }
 
   /**
@@ -68,9 +68,9 @@ export default class SeriesPayment {
    *
    * @param payableFrom posted date of the first cash flow in the series
    */
-  public setDueOnOrFrom(payableFrom: Date): this {
-    this._seriesPayment.postedDate = payableFrom;
-    return this;
+  public setDueOnOrFrom (payableFrom: Date): this {
+    this._seriesPayment.postedDate = payableFrom
+    return this
   }
 
   /**
@@ -78,9 +78,9 @@ export default class SeriesPayment {
    *
    * @param frequency of the one or more advance cash flows in the series.
    */
-  public setFrequency(frequency: Frequency): this {
-    this._seriesPayment.frequency = frequency;
-    return this;
+  public setFrequency (frequency: Frequency): this {
+    this._seriesPayment.frequency = frequency
+    return this
   }
 
   /**
@@ -88,9 +88,9 @@ export default class SeriesPayment {
    *
    * @param mode of the one or more payment cash flows in the series
    */
-  public setMode(mode: Mode) {
-    this._seriesPayment.mode = mode;
-    return this;
+  public setMode (mode: Mode): this {
+    this._seriesPayment.mode = mode
+    return this
   }
 
   /**
@@ -100,14 +100,14 @@ export default class SeriesPayment {
    * @param weighting to apply to the payment cash flows in the series
    * @throws error when weighting value is zero or negative
    */
-  public setWeighting(weighting: number): this {
+  public setWeighting (weighting: number): this {
     if (!(weighting > 0)) {
       throw new Error(
-        "The weighting value must be greater than 0"
-      );
+        'The weighting value must be greater than 0'
+      )
     }
-    this._seriesPayment.weighting = weighting;
-    return this;
+    this._seriesPayment.weighting = weighting
+    return this
   }
 
   /**
@@ -117,16 +117,16 @@ export default class SeriesPayment {
    *
    * @param isIntCap
    */
-  public setIsIntCap(isIntCap: boolean): this {
-    this._seriesPayment.isIntCap = isIntCap;
-    return this;
+  public setIsIntCap (isIntCap: boolean): this {
+    this._seriesPayment.isIntCap = isIntCap
+    return this
   }
 
   /**
    * Method provides a reference to the populated instance after all user input has
    * been captured.
    */
-  public build(): Series {
-    return this._seriesPayment;
+  public build (): Series {
+    return this._seriesPayment
   }
 }

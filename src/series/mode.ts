@@ -6,6 +6,6 @@
  * * Arrear - cash flows due at the end of a compounding period
  */
 export enum Mode {
-  Advance = "Advance",
-  Arrear = "Arrear"
+  Advance = 'Advance',
+  Arrear = 'Arrear'
 }

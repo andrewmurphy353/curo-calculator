@@ -1,6 +1,6 @@
-import CashFlow from "../profile/cash-flow";
-import CashFlowAdvance from "../profile/cash-flow-advance";
-import CashFlowPayment from "../profile/cash-flow-payment";
+import type CashFlow from '../profile/cash-flow'
+import CashFlowAdvance from '../profile/cash-flow-advance'
+import CashFlowPayment from '../profile/cash-flow-payment'
 
 /**
  * A collection of retrieval and validation utility methods.
@@ -18,24 +18,24 @@ export default class ProfileUtils {
    * @returns cash outflow instance, or *undefined* to
    * signify a configuration error
    */
-  public static firstAdvanceCF(cashFlows: CashFlow[]): CashFlowAdvance {
+  public static firstAdvanceCF (cashFlows: CashFlow[]): CashFlowAdvance {
     return cashFlows
       .filter(c => c instanceof CashFlowAdvance)
       .sort((c1: CashFlow, c2: CashFlow) => {
         if (c1.postingDate < c2.postingDate) {
-          return -1;
+          return -1
         } else if (c1.postingDate > c2.postingDate) {
-          return 1;
+          return 1
         } else {
           // Posting dates are equal, sort by value date, earliest first
           if (c1.valueDate < c2.valueDate) {
-            return -1;
+            return -1
           } else if (c1.valueDate > c2.valueDate) {
-            return 1;
+            return 1
           }
-          return 0;
+          return 0
         }
-      })[0];
+      })[0]
   }
 
   /**
@@ -46,8 +46,8 @@ export default class ProfileUtils {
    * @returns true if found, otherwise false to signify an incorrect
    * configuration
    */
-  public static hasPaymentCF(cashFlows: CashFlow[]): boolean {
-    return cashFlows.filter(c => c instanceof CashFlowPayment).length > 0;
+  public static hasPaymentCF (cashFlows: CashFlow[]): boolean {
+    return cashFlows.filter(c => c instanceof CashFlowPayment).length > 0
   }
 
   /**
@@ -61,17 +61,17 @@ export default class ProfileUtils {
    * @param cashFlows the cash flow series
    * @returns
    */
-  public static isUnknownsValid(cashFlows: CashFlow[]): boolean {
+  public static isUnknownsValid (cashFlows: CashFlow[]): boolean {
     const outHas: boolean =
       cashFlows.filter(c => c instanceof CashFlowAdvance && !c.isKnown).length >
-      0;
+      0
     const inHas: boolean =
       cashFlows.filter(c => c instanceof CashFlowPayment && !c.isKnown).length >
-      0;
+      0
     if (outHas && inHas) {
-      return false;
+      return false
     }
-    return true;
+    return true
   }
 
   /**
@@ -87,28 +87,28 @@ export default class ProfileUtils {
    * @param cashFlows the cash flow series
    * @returns
    */
-  public static isIntCapValid(cashFlows: CashFlow[]): boolean {
+  public static isIntCapValid (cashFlows: CashFlow[]): boolean {
     // Extract and sort date descending
     const cfsDesc = cashFlows
       .filter(c => c instanceof CashFlowPayment)
       .sort((c1: CashFlow, c2: CashFlow) => {
         if (c1.postingDate < c2.postingDate) {
-          return 1;
+          return 1
         } else if (c1.postingDate > c2.postingDate) {
-          return -1;
+          return -1
         } else {
-          return 0;
+          return 0
         }
-      });
+      })
     // Extract objects sharing the same final posting date and test
     const cfs = cfsDesc.filter(
       c => c.postingDate.getTime() === cfsDesc[0].postingDate.getTime()
-    );
+    )
     for (const cf of cfs) {
       if ((cf as CashFlowPayment).isIntCapitalised()) {
-        return true;
+        return true
       }
     }
-    return false;
+    return false
   }
 }

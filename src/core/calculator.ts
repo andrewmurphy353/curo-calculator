@@ -1,12 +1,12 @@
-import Convention from "../day-count/convention";
-import Profile from "../profile/profile";
-import CashFlowBuilder from "../series/cash-flow-builder";
-import Series from "../series/series";
-import DateUtils from "../utils/date-utils";
-import MathUtils from "../utils/math-utils";
-import SolveCashFlow from "./solve-cash-flow";
-import SolveNfv from "./solve-nfv";
-import SolveRoot from "./solve-root";
+import type Convention from '../day-count/convention'
+import Profile from '../profile/profile'
+import CashFlowBuilder from '../series/cash-flow-builder'
+import type Series from '../series/series'
+import DateUtils from '../utils/date-utils'
+import MathUtils from '../utils/math-utils'
+import SolveCashFlow from './solve-cash-flow'
+import SolveNfv from './solve-nfv'
+import SolveRoot from './solve-root'
 
 /**
  * The calculator class provides the entry point for solving unknown values
@@ -15,10 +15,10 @@ import SolveRoot from "./solve-root";
  * @author Andrew Murphy
  */
 export default class Calculator {
-  private _precision: number;
-  private _profile!: Profile;
-  private _isBespokeProfile: boolean;
-  private _series: Series[];
+  private readonly _precision: number
+  private _profile!: Profile
+  private readonly _isBespokeProfile: boolean
+  private readonly _series: Series[]
 
   /**
    * Instantiates a calculator instance.
@@ -32,45 +32,45 @@ export default class Calculator {
    * in a bespoke profile takes precedence, hence will override any precision
    * value passed as an argument to this constructor.
    */
-  constructor(precision: number = 2, profile?: Profile) {
+  constructor (precision = 2, profile?: Profile) {
     switch (profile === undefined ? precision : profile.precision) {
       /* istanbul ignore next */
       case 0:
       case 2:
       case 3:
       case 4:
-        this._precision = profile === undefined ? precision : profile.precision;
-        break;
+        this._precision = profile === undefined ? precision : profile.precision
+        break
       default:
         throw new Error(
           `The precision of ${precision} is unsupported. Valid options are 0, 2, 3 or 4`
-        );
+        )
     }
     if (profile === undefined) {
-      this._isBespokeProfile = false;
+      this._isBespokeProfile = false
     } else {
-      this._isBespokeProfile = true;
-      this._profile = profile;
+      this._isBespokeProfile = true
+      this._profile = profile
     }
-    this._series = [];
+    this._series = []
   }
 
   /**
    * Returns the number of fractional digits used in the rounding of
    * cash flow values.
    */
-  get precision(): number {
-    return this._precision;
+  get precision (): number {
+    return this._precision
   }
 
   /**
    * Returns a reference to the cash flow profile.
    */
-  get profile(): Profile {
+  get profile (): Profile {
     if (this._profile === undefined) {
-      throw new Error("The profile has not been initialised yet.");
+      throw new Error('The profile has not been initialised yet.')
     }
-    return this._profile;
+    return this._profile
   }
 
   /**
@@ -86,18 +86,18 @@ export default class Calculator {
    *
    * @param seriesItem
    */
-  public add(seriesItem: Series): void {
+  public add (seriesItem: Series): void {
     if (this._isBespokeProfile) {
       throw new Error(
-        "The add(seriesItem) option cannot be used with a user-defined profile."
-      );
+        'The add(seriesItem) option cannot be used with a user-defined profile.'
+      )
     }
     // Coerce series monetary amount to specified precision
     if (seriesItem.amount !== undefined) {
-      seriesItem.amount = MathUtils.gaussRound(seriesItem.amount, this._precision);
+      seriesItem.amount = MathUtils.gaussRound(seriesItem.amount, this._precision)
     }
 
-    this._series.push(seriesItem);
+    this._series.push(seriesItem)
   }
 
   /**
@@ -109,17 +109,17 @@ export default class Calculator {
    * e.g. 5.25% is 0.0525 as a decimal
    * @returns the value result, fully weighted
    */
-  public solveValue(dayCount: Convention, intRate: number) {
+  public solveValue (dayCount: Convention, intRate: number): number {
     if (this._profile === undefined && !this._isBespokeProfile) {
-      this.buildProfile();
+      this.buildProfile()
     }
 
     let value = SolveRoot.solve(
       new SolveCashFlow(this.profile, dayCount, intRate)
-    );
-    value = this.profile.updateValues(value, true);
-    this.profile.updateAmortInt(intRate);
-    return MathUtils.gaussRound(value, this.precision);
+    )
+    value = this.profile.updateValues(value, true)
+    this.profile.updateAmortInt(intRate)
+    return MathUtils.gaussRound(value, this.precision)
   }
 
   /**
@@ -129,11 +129,11 @@ export default class Calculator {
    * between cash flows
    * @returns the interest rate result, expressed as a *decimal*
    */
-  public solveRate(dayCount: Convention): number {
+  public solveRate (dayCount: Convention): number {
     if (this._profile === undefined && !this._isBespokeProfile) {
-      this.buildProfile();
+      this.buildProfile()
     }
-    return SolveRoot.solve(new SolveNfv(this.profile, dayCount));
+    return SolveRoot.solve(new SolveNfv(this.profile, dayCount))
   }
 
   /**
@@ -141,9 +141,9 @@ export default class Calculator {
    * series passed to the add() method.
    *
    */
-  private buildProfile(): void {
-    const today: Date = DateUtils.dateToUTC(new Date());
-    const cashFlows = CashFlowBuilder.build(this._series, today);
-    this._profile = new Profile(cashFlows, this._precision);
+  private buildProfile (): void {
+    const today: Date = DateUtils.dateToUTC(new Date())
+    const cashFlows = CashFlowBuilder.build(this._series, today)
+    this._profile = new Profile(cashFlows, this._precision)
   }
 }

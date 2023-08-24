@@ -1,5 +1,5 @@
-import Convention from "./convention";
-import DayCountFactor from "./day-count-factor";
+import Convention from './convention'
+import DayCountFactor from './day-count-factor'
 
 /**
  * The 30/360 (EU) day count convention which specifies that the number of days in the
@@ -27,9 +27,9 @@ import DayCountFactor from "./day-count-factor";
  * This convention is also known as "30E/360" or "Eurobond basis".
  */
 export default class EU30360 extends Convention {
-  private _usePostingDates: boolean;
-  private _inclNonFinFlows: boolean;
-  private _dayCountRef: string;
+  private readonly _usePostingDates: boolean
+  private readonly _inclNonFinFlows: boolean
+  private readonly _dayCountRef: string
 
   /**
    * Provides an instance of the 30/360 (EU) day count convention object.
@@ -58,63 +58,63 @@ export default class EU30360 extends Convention {
    * @param useXirrMethod (optional) determines whether to use the XIRR method
    * of determining time periods between cash flow dates (true). Default is false.
    */
-  constructor(
-    usePostingDates: boolean = true,
-    inclNonFinFlows: boolean = false,
-    useXirrMethod: boolean = false
+  constructor (
+    usePostingDates = true,
+    inclNonFinFlows = false,
+    useXirrMethod = false
   ) {
-    super();
-    this._usePostingDates = usePostingDates;
-    this._inclNonFinFlows = inclNonFinFlows;
+    super()
+    this._usePostingDates = usePostingDates
+    this._inclNonFinFlows = inclNonFinFlows
     if (useXirrMethod) {
-      this._dayCountRef = EU30360.DRAWDOWN;
+      this._dayCountRef = EU30360.DRAWDOWN
     } else {
-      this._dayCountRef = EU30360.NEIGHBOUR;
+      this._dayCountRef = EU30360.NEIGHBOUR
     }
   }
 
-  public dayCountRef(): string {
-    return this._dayCountRef;
+  public dayCountRef (): string {
+    return this._dayCountRef
   }
 
-  public usePostingDates(): boolean {
-    return this._usePostingDates;
+  public usePostingDates (): boolean {
+    return this._usePostingDates
   }
 
-  public inclNonFinFlows(): boolean {
-    return this._inclNonFinFlows;
+  public inclNonFinFlows (): boolean {
+    return this._inclNonFinFlows
   }
 
-  public computeFactor(d1: Date, d2: Date): DayCountFactor {
-    const dd1 = d1.getDate();
-    const mm1 = d1.getMonth();
-    const yyyy1 = d1.getFullYear();
-    const dd2 = d2.getDate();
-    const mm2 = d2.getMonth();
-    const yyyy2 = d2.getFullYear();
+  public computeFactor (d1: Date, d2: Date): DayCountFactor {
+    const dd1 = d1.getDate()
+    const mm1 = d1.getMonth()
+    const yyyy1 = d1.getFullYear()
+    const dd2 = d2.getDate()
+    const mm2 = d2.getMonth()
+    const yyyy2 = d2.getFullYear()
 
-    let z = 0;
+    let z = 0
     if (dd1 === 31) {
-      z = 30;
+      z = 30
     } else {
-      z = dd1;
+      z = dd1
     }
-    const dt1 = 360 * yyyy1 + 30 * mm1 + z;
+    const dt1 = 360 * yyyy1 + 30 * mm1 + z
 
     if (dd2 === 31) {
-      z = 30;
+      z = 30
     } else {
       // dd2 < 31
-      z = dd2;
+      z = dd2
     }
-    const dt2 = 360 * yyyy2 + 30 * mm2 + z;
+    const dt2 = 360 * yyyy2 + 30 * mm2 + z
 
-    const numerator: number = Math.abs(dt2 - dt1);
-    const factor: number = numerator / 360;
+    const numerator: number = Math.abs(dt2 - dt1)
+    const factor: number = numerator / 360
 
-    const periodFactor: DayCountFactor = new DayCountFactor(factor);
-    periodFactor.logOperands(numerator, 360);
+    const periodFactor: DayCountFactor = new DayCountFactor(factor)
+    periodFactor.logOperands(numerator, 360)
 
-    return periodFactor;
+    return periodFactor
   }
 }

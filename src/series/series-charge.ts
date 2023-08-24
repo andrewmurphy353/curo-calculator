@@ -1,7 +1,7 @@
-import { Frequency } from "./frequency";
-import { Mode } from "./mode";
-import Series from "./series";
-import { SeriesType } from "./series-type";
+import { type Frequency } from './frequency'
+import { type Mode } from './mode'
+import Series from './series'
+import { SeriesType } from './series-type'
 
 /**
  * A series of one or more charges or fees received by a lender. These are non-finance cash flows
@@ -15,14 +15,14 @@ export default class SeriesCharge {
   /**
    * Instantiates a default instance of this class to capture user-defined input
    */
-  public static builder(): SeriesCharge {
-    return new SeriesCharge();
+  public static builder (): SeriesCharge {
+    return new SeriesCharge()
   }
 
-  private _seriesCharge: Series;
+  private readonly _seriesCharge: Series
 
-  private constructor() {
-    this._seriesCharge = new Series(SeriesType.Charge);
+  private constructor () {
+    this._seriesCharge = new Series(SeriesType.Charge)
   }
 
   /**
@@ -32,9 +32,9 @@ export default class SeriesCharge {
    * @param label containing localised  text in singular form e.g. 'Arrangement
    * fee' (not 'Arrangement fees')
    */
-  public setLabel(label: string): this {
-    this._seriesCharge.label = label;
-    return this;
+  public setLabel (label: string): this {
+    this._seriesCharge.label = label
+    return this
   }
 
   /**
@@ -43,12 +43,12 @@ export default class SeriesCharge {
    * @param numberOf determining total number of cash flows in series
    * @throws error when numberOf argument is less than 1
    */
-  public setNumberOf(numberOf: number): this {
+  public setNumberOf (numberOf: number): this {
     if (numberOf < 1) {
-      throw new Error("The numberOf value must be 1 or greater");
+      throw new Error('The numberOf value must be 1 or greater')
     }
-    this._seriesCharge.numberOf = numberOf;
-    return this;
+    this._seriesCharge.numberOf = numberOf
+    return this
   }
 
   /**
@@ -56,9 +56,9 @@ export default class SeriesCharge {
    *
    * @param amount to assign to each cash flow object created.
    */
-  public setAmount(amount: number): this {
-    this._seriesCharge.amount = amount;
-    return this;
+  public setAmount (amount: number): this {
+    this._seriesCharge.amount = amount
+    return this
   }
 
   /**
@@ -71,9 +71,9 @@ export default class SeriesCharge {
    *
    * @param payableFrom posted date of the first cash flow in the series
    */
-  public setDueOnOrFrom(payableFrom: Date): this {
-    this._seriesCharge.postedDate = payableFrom;
-    return this;
+  public setDueOnOrFrom (payableFrom: Date): this {
+    this._seriesCharge.postedDate = payableFrom
+    return this
   }
 
   /**
@@ -81,9 +81,9 @@ export default class SeriesCharge {
    *
    * @param frequency of the one or more charge cash flows in the series.
    */
-  public setFrequency(frequency: Frequency): this {
-    this._seriesCharge.frequency = frequency;
-    return this;
+  public setFrequency (frequency: Frequency): this {
+    this._seriesCharge.frequency = frequency
+    return this
   }
 
   /**
@@ -91,16 +91,16 @@ export default class SeriesCharge {
    *
    * @param mode of the one or more charge cash flows in the series
    */
-  public setMode(mode: Mode) {
-    this._seriesCharge.mode = mode;
-    return this;
+  public setMode (mode: Mode): this {
+    this._seriesCharge.mode = mode
+    return this
   }
 
   /**
    * Method provides a reference to the populated instance after all user
    * input has been captured.
    */
-  public build(): Series {
-    return this._seriesCharge;
+  public build (): Series {
+    return this._seriesCharge
   }
 }

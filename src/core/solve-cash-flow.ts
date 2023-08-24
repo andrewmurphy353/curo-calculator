@@ -1,7 +1,7 @@
-import Convention from "../day-count/convention";
-import Profile from "../profile/profile";
-import Callback from "./callback";
-import SolveNfv from "./solve-nfv";
+import type Convention from '../day-count/convention'
+import type Profile from '../profile/profile'
+import type Callback from './callback'
+import SolveNfv from './solve-nfv'
 
 /**
  * Implementation of the function for finding an unknown cash flow value or values.
@@ -16,16 +16,16 @@ export default class SolveCashFlow implements Callback {
    * @param dayCount day count convention to use
    * @param effectiveRate interest rate guess
    */
-  constructor(
-    private profile: Profile,
-    private dayCount: Convention,
-    private effectiveRate: number
+  constructor (
+    private readonly profile: Profile,
+    private readonly dayCount: Convention,
+    private readonly effectiveRate: number
   ) {
-    this.profile.assignFactors(this.dayCount);
+    this.profile.assignFactors(this.dayCount)
   }
 
-  public label(): string {
-    return "Cash Flow Value";
+  public label (): string {
+    return 'Cash Flow Value'
   }
 
   /**
@@ -35,9 +35,9 @@ export default class SolveCashFlow implements Callback {
    *
    * @param guess
    */
-  public compute(guess: number): number {
-    this.profile.updateValues(guess);
-    const nfv = new SolveNfv(this.profile, this.dayCount);
-    return nfv.compute(this.effectiveRate);
+  public compute (guess: number): number {
+    this.profile.updateValues(guess)
+    const nfv = new SolveNfv(this.profile, this.dayCount)
+    return nfv.compute(this.effectiveRate)
   }
 }

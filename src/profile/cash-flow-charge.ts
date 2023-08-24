@@ -1,4 +1,4 @@
-import CashFlow from "./cash-flow";
+import CashFlow from './cash-flow'
 
 /**
  * Represents the movement of money, specifically non-interest bearing cash
@@ -15,7 +15,7 @@ import CashFlow from "./cash-flow";
  * @author Andrew Murphy
  */
 export default class CashFlowCharge extends CashFlow {
-  constructor(postingDate: Date, value: number, label?: string) {
-    super(postingDate, postingDate, Math.abs(value), undefined, label);
+  constructor (postingDate: Date, value: number, label?: string) {
+    super(postingDate, postingDate, Math.abs(value), undefined, label)
   }
 }

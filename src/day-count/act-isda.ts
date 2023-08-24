@@ -1,6 +1,6 @@
-import DateUtils from "../utils/date-utils";
-import Convention from "./convention";
-import DayCountFactor from "./day-count-factor";
+import DateUtils from '../utils/date-utils'
+import Convention from './convention'
+import DayCountFactor from './day-count-factor'
 
 /**
  * The Actual/ISDA day count convention which follows the ISDA understanding of the
@@ -18,9 +18,9 @@ import DayCountFactor from "./day-count-factor";
  * "Act/Act (ISDA)"
  */
 export default class ActISDA extends Convention {
-  private _usePostingDates: boolean;
-  private _inclNonFinFlows: boolean;
-  private _dayCountRef: string;
+  private readonly _usePostingDates: boolean
+  private readonly _inclNonFinFlows: boolean
+  private readonly _dayCountRef: string
 
   /**
    * Provides an instance of the Actual/Actual (ISDA) day count convention.
@@ -44,93 +44,91 @@ export default class ActISDA extends Convention {
    * @param useXirrMethod (optional) determines whether to use the XIRR method
    * of determining time periods between cash flow dates (true). Default is false.
    */
-  constructor(
-    usePostingDates: boolean = true,
-    inclNonFinFlows: boolean = false,
-    useXirrMethod: boolean = false
+  constructor (
+    usePostingDates = true,
+    inclNonFinFlows = false,
+    useXirrMethod = false
   ) {
-    super();
-    this._usePostingDates = usePostingDates;
-    this._inclNonFinFlows = inclNonFinFlows;
+    super()
+    this._usePostingDates = usePostingDates
+    this._inclNonFinFlows = inclNonFinFlows
     if (useXirrMethod) {
-      this._dayCountRef = ActISDA.DRAWDOWN;
+      this._dayCountRef = ActISDA.DRAWDOWN
     } else {
-      this._dayCountRef = ActISDA.NEIGHBOUR;
+      this._dayCountRef = ActISDA.NEIGHBOUR
     }
   }
 
-  public dayCountRef(): string {
-    return this._dayCountRef;
+  public dayCountRef (): string {
+    return this._dayCountRef
   }
 
-  public usePostingDates(): boolean {
-    return this._usePostingDates;
+  public usePostingDates (): boolean {
+    return this._usePostingDates
   }
 
-  public inclNonFinFlows(): boolean {
-    return this._inclNonFinFlows;
+  public inclNonFinFlows (): boolean {
+    return this._inclNonFinFlows
   }
 
-  public computeFactor(d1: Date, d2: Date): DayCountFactor {
-    let startDateYear: number = d1.getFullYear();
-    const endDateYear: number = d2.getFullYear();
-    let periodFactor: DayCountFactor;
-    let numerator: number;
-    let denominator: number;
-    let factor: number = 0;
+  public computeFactor (d1: Date, d2: Date): DayCountFactor {
+    let startDateYear: number = d1.getFullYear()
+    const endDateYear: number = d2.getFullYear()
+    let periodFactor: DayCountFactor
+    let numerator: number
+    let denominator: number
+    let factor = 0
 
     if (startDateYear === endDateYear) {
       /*
        * Common case - both dates fall within the same leap-year or non leap-year,
        * so no need to split factor calculation
        */
-      numerator = DateUtils.actualDays(d1, d2);
-      denominator = DateUtils.isLeapYear(startDateYear) ? 366 : 365;
-      factor = numerator / denominator;
+      numerator = DateUtils.actualDays(d1, d2)
+      denominator = DateUtils.isLeapYear(startDateYear) ? 366 : 365
+      factor = numerator / denominator
 
-      periodFactor = new DayCountFactor(factor);
-      periodFactor.logOperands(numerator, denominator);
-
+      periodFactor = new DayCountFactor(factor)
+      periodFactor.logOperands(numerator, denominator)
     } else if (!DateUtils.hasLeapYear(startDateYear, endDateYear)) {
       /*
        * Dates do not span or fall within a leap year
        */
-      numerator = DateUtils.actualDays(d1, d2);
-      factor = numerator / 365;
+      numerator = DateUtils.actualDays(d1, d2)
+      factor = numerator / 365
 
-      periodFactor = new DayCountFactor(factor);
-      periodFactor.logOperands(numerator, 365.0);
-
+      periodFactor = new DayCountFactor(factor)
+      periodFactor.logOperands(numerator, 365.0)
     } else {
       /*
        * There is a leap year in the date range so split factor calculation.
        * Handle partial period in year 1, and whole years thereafter (if necessary)
        */
-      periodFactor = new DayCountFactor();
+      periodFactor = new DayCountFactor()
 
-      let yearEnd: Date;
+      let yearEnd: Date
       while (startDateYear !== endDateYear) {
-        yearEnd = new Date(startDateYear, 11, 31);
-        numerator = DateUtils.actualDays(d1, yearEnd);
-        denominator = DateUtils.isLeapYear(startDateYear) ? 366.0 : 365.0;
-        factor += numerator / denominator;
+        yearEnd = new Date(startDateYear, 11, 31)
+        numerator = DateUtils.actualDays(d1, yearEnd)
+        denominator = DateUtils.isLeapYear(startDateYear) ? 366.0 : 365.0
+        factor += numerator / denominator
         if (numerator > 0) {
           // Do not log when numerator 0 (it will be when start date is last day of year)
-          periodFactor.logOperands(numerator, denominator);
+          periodFactor.logOperands(numerator, denominator)
         }
-        d1 = yearEnd;
-        startDateYear++;
+        d1 = yearEnd
+        startDateYear++
       }
 
       // Process partial final year period
-      numerator = DateUtils.actualDays(d1, d2);
-      denominator = DateUtils.isLeapYear(endDateYear) ? 366.0 : 365.0;
-      factor += numerator / denominator;
+      numerator = DateUtils.actualDays(d1, d2)
+      denominator = DateUtils.isLeapYear(endDateYear) ? 366.0 : 365.0
+      factor += numerator / denominator
 
-      periodFactor.factor = factor;
-      periodFactor.logOperands(numerator, denominator);
+      periodFactor.factor = factor
+      periodFactor.logOperands(numerator, denominator)
     }
 
-    return periodFactor;
+    return periodFactor
   }
 }

@@ -1,5 +1,5 @@
-import DayCountFactor from "../day-count/day-count-factor";
-import MathUtils from "../utils/math-utils";
+import type DayCountFactor from '../day-count/day-count-factor'
+import MathUtils from '../utils/math-utils'
 
 /**
  * Represents the movement of money, inbound or outbound.
@@ -7,13 +7,13 @@ import MathUtils from "../utils/math-utils";
  * @author Andrew Murphy
  */
 export default abstract class CashFlow {
-  public periodFactor!: DayCountFactor;
-  private _postingDate: Date;
-  private _valueDate: Date;
-  private _value: number;
-  private _isKnown: boolean;
-  private _weighting: number;
-  private _label: string;
+  public periodFactor!: DayCountFactor
+  private readonly _postingDate: Date
+  private readonly _valueDate: Date
+  private _value: number
+  private readonly _isKnown: boolean
+  private readonly _weighting: number
+  private readonly _label: string
 
   /**
    * Base constructor for derive classes to override.
@@ -27,12 +27,12 @@ export default abstract class CashFlow {
    * when applied to known cash flow values. Default value is 1.0
    * @param label free text description of the cash flow e.g. Loan, Payment, Fee, etc.
    */
-  constructor(
+  constructor (
     postingDate: Date,
     valueDate: Date,
     value?: number,
     weighting?: number,
-    label: string = ""
+    label = ''
   ) {
     this._postingDate = new Date(
       Date.UTC(
@@ -40,53 +40,53 @@ export default abstract class CashFlow {
         postingDate.getMonth(),
         postingDate.getDate()
       )
-    );
+    )
     this._valueDate = new Date(
       Date.UTC(
         valueDate.getFullYear(),
         valueDate.getMonth(),
         valueDate.getDate()
       )
-    );
+    )
     if (this._valueDate.getTime() < this._postingDate.getTime()) {
-      throw new Error("Cash flow value-date cannot predate the posting-date.");
+      throw new Error('Cash flow value-date cannot predate the posting-date.')
     }
     if (value === undefined) {
-      this._isKnown = false;
-      this._value = 0;
+      this._isKnown = false
+      this._value = 0
     } else {
-      this._isKnown = true;
-      this._value = value;
+      this._isKnown = true
+      this._value = value
     }
     if (weighting === undefined) {
-      this._weighting = 1.0;
+      this._weighting = 1.0
     } else {
-      this._weighting = Math.abs(weighting);
+      this._weighting = Math.abs(weighting)
     }
-    this._label = label;
+    this._label = label
   }
 
   /**
    * The posting date defines the due date of the cash flow.
    */
-  get postingDate(): Date {
-    return this._postingDate;
+  get postingDate (): Date {
+    return this._postingDate
   }
 
   /**
    * The value date defines the settlement date of the cash flow.
    * It should not predate the posting date.
    */
-  get valueDate(): Date {
-    return this._valueDate;
+  get valueDate (): Date {
+    return this._valueDate
   }
 
   /**
    * The cash flow value which will be positive or negative in
    * accordance with cash flow sign convention.
    */
-  get value(): number {
-    return this._value;
+  get value (): number {
+    return this._value
   }
 
   /**
@@ -96,20 +96,20 @@ export default abstract class CashFlow {
    * the rounding of unknown cash flow values. Should only be defined once the
    * unknown value has been solved.
    */
-  public updateValue(value: number, precision?: number) {
+  public updateValue (value: number, precision?: number): void {
     if (precision === undefined) {
       // No rounding
-      this._value = value * this._weighting;
+      this._value = value * this._weighting
     } else {
-      this._value = MathUtils.gaussRound(value * this._weighting, precision);
+      this._value = MathUtils.gaussRound(value * this._weighting, precision)
     }
   }
 
   /**
    * Flag indicating whether the cash flow value is known, or is to be computed.
    */
-  get isKnown(): boolean {
-    return this._isKnown;
+  get isKnown (): boolean {
+    return this._isKnown
   }
 
   /**
@@ -117,14 +117,14 @@ export default abstract class CashFlow {
    * The weighting determines the scale of an unknown cash flow value relative
    * to other unknown cash flows in a cash flow series.
    */
-  get weighting(): number {
-    return this._weighting;
+  get weighting (): number {
+    return this._weighting
   }
 
   /**
    * Free text label describing cash flow
    */
-  get label(): string {
-    return this._label;
+  get label (): string {
+    return this._label
   }
 }

@@ -1,11 +1,11 @@
-import CashFlow from "../profile/cash-flow";
-import CashFlowAdvance from "../profile/cash-flow-advance";
-import CashFlowCharge from "../profile/cash-flow-charge";
-import CashFlowPayment from "../profile/cash-flow-payment";
-import DateUtils from "../utils/date-utils";
-import { Mode } from "./mode";
-import Series from "./series";
-import { SeriesType } from "./series-type";
+import type CashFlow from '../profile/cash-flow'
+import CashFlowAdvance from '../profile/cash-flow-advance'
+import CashFlowCharge from '../profile/cash-flow-charge'
+import CashFlowPayment from '../profile/cash-flow-payment'
+import DateUtils from '../utils/date-utils'
+import { Mode } from './mode'
+import type Series from './series'
+import { SeriesType } from './series-type'
 
 /**
  * Class for building out a cash flow series into separate cash flow instances of the specific
@@ -38,41 +38,41 @@ export default class CashFlowBuilder {
    * @param today the initial start date to use in the first of an undated cash flow series
    * @return an array of cash flows
    */
-  public static build(series: Series[], today: Date): CashFlow[] {
+  public static build (series: Series[], today: Date): CashFlow[] {
     if (series.length < 1) {
-      throw new Error("The cash flow series is empty. Build aborted.");
+      throw new Error('The cash flow series is empty. Build aborted.')
     }
-    const cashFlows: CashFlow[] = [];
+    const cashFlows: CashFlow[] = []
 
     // Keep track of computed dates for undated series
-    let nextAdvPeriod: Date = today;
-    let nextPmtPeriod: Date = today;
-    let nextChgPeriod: Date = today;
+    let nextAdvPeriod: Date = today
+    let nextPmtPeriod: Date = today
+    let nextChgPeriod: Date = today
 
     for (const seriesItem of series) {
-      let pDateToUse: Date;
-      let pDateDay: number;
+      let pDateToUse: Date
+      let pDateDay: number
       if (seriesItem.postedDate === undefined) {
         // Computed date
         switch (seriesItem.seriesType) {
           case SeriesType.Advance:
-            pDateToUse = nextAdvPeriod;
-            break;
+            pDateToUse = nextAdvPeriod
+            break
           case SeriesType.Payment:
-            pDateToUse = nextPmtPeriod;
-            break;
+            pDateToUse = nextPmtPeriod
+            break
           case SeriesType.Charge:
-            pDateToUse = nextChgPeriod;
-            break;
+            pDateToUse = nextChgPeriod
+            break
           /* istanbul ignore next */
           default:
-            throw new Error(`SeriesType ${seriesItem} not supported.`);
+            throw new Error(`SeriesType ${seriesItem} not supported.`)
         }
-        pDateDay = today.getDate();
+        pDateDay = today.getDate()
       } else {
         // Provided date
-        pDateToUse = seriesItem.postedDate;
-        pDateDay = pDateToUse.getDate();
+        pDateToUse = seriesItem.postedDate
+        pDateDay = pDateToUse.getDate()
       }
 
       if (seriesItem.mode === Mode.Arrear) {
@@ -80,27 +80,27 @@ export default class CashFlowBuilder {
           pDateToUse,
           seriesItem.frequency,
           pDateDay
-        );
+        )
       }
 
       switch (seriesItem.seriesType) {
-        case SeriesType.Advance:
+        case SeriesType.Advance: {
           // Process value dates for advances only
-          let vDateToUse: Date;
-          let vDateDay: number;
+          let vDateToUse: Date
+          let vDateDay: number
 
           if (seriesItem.valueDate === undefined) {
-            vDateToUse = pDateToUse;
-            vDateDay = pDateDay;
+            vDateToUse = pDateToUse
+            vDateDay = pDateDay
           } else {
-            vDateToUse = seriesItem.valueDate;
-            vDateDay = vDateToUse.getDate();
+            vDateToUse = seriesItem.valueDate
+            vDateDay = vDateToUse.getDate()
             if (seriesItem.mode === Mode.Arrear) {
               vDateToUse = DateUtils.rollDate(
                 vDateToUse,
                 seriesItem.frequency,
                 vDateDay
-              );
+              )
             }
           }
 
@@ -113,18 +113,18 @@ export default class CashFlowBuilder {
                 seriesItem.weighting,
                 seriesItem.label
               )
-            );
+            )
             if (j < seriesItem.numberOf - 1) {
               pDateToUse = DateUtils.rollDate(
                 pDateToUse,
                 seriesItem.frequency,
                 pDateDay
-              );
+              )
               vDateToUse = DateUtils.rollDate(
                 vDateToUse,
                 seriesItem.frequency,
                 vDateDay
-              );
+              )
             }
           }
           if (seriesItem.postedDate === undefined) {
@@ -134,13 +134,13 @@ export default class CashFlowBuilder {
                 pDateToUse,
                 seriesItem.frequency,
                 pDateDay
-              );
+              )
             } else {
-              nextAdvPeriod = pDateToUse;
+              nextAdvPeriod = pDateToUse
             }
           }
-          break;
-
+          break
+        }
         case SeriesType.Payment:
           for (let j = 0; j < seriesItem.numberOf; j++) {
             cashFlows.push(
@@ -151,13 +151,13 @@ export default class CashFlowBuilder {
                 seriesItem.isIntCap,
                 seriesItem.label
               )
-            );
+            )
             if (j < seriesItem.numberOf - 1) {
               pDateToUse = DateUtils.rollDate(
                 pDateToUse,
                 seriesItem.frequency,
                 pDateDay
-              );
+              )
             }
           }
           if (seriesItem.postedDate === undefined) {
@@ -167,12 +167,12 @@ export default class CashFlowBuilder {
                 pDateToUse,
                 seriesItem.frequency,
                 pDateDay
-              );
+              )
             } else {
-              nextPmtPeriod = pDateToUse;
+              nextPmtPeriod = pDateToUse
             }
           }
-          break;
+          break
 
         case SeriesType.Charge:
           // Charge value must be defined
@@ -183,13 +183,13 @@ export default class CashFlowBuilder {
                 (seriesItem.amount === undefined) ? 0.0 : seriesItem.amount,
                 seriesItem.label
               )
-            );
+            )
             if (j < seriesItem.numberOf - 1) {
               pDateToUse = DateUtils.rollDate(
                 pDateToUse,
                 seriesItem.frequency,
                 pDateDay
-              );
+              )
             }
           }
           if (seriesItem.postedDate === undefined) {
@@ -199,19 +199,19 @@ export default class CashFlowBuilder {
                 pDateToUse,
                 seriesItem.frequency,
                 pDateDay
-              );
+              )
             } else {
-              nextChgPeriod = pDateToUse;
+              nextChgPeriod = pDateToUse
             }
           }
-          break;
+          break
         /* istanbul ignore next */
         default:
           throw new Error(
             `SeriesType ${seriesItem.seriesType} not supported`
-          );
+          )
       }
     }
-    return cashFlows;
+    return cashFlows
   }
 }

@@ -7,10 +7,10 @@ export default interface Callback {
   /**
    * Label providing context for errors
    */
-  label(): string;
+  label: () => string
   /**
    * The callback function to implement
    * @param guess
    */
-  compute(guess: number): number;
+  compute: (guess: number) => number
 }

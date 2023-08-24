@@ -1,4 +1,4 @@
-import CashFlow from "./cash-flow";
+import CashFlow from './cash-flow'
 
 /**
  * Represents the movement of money, specifically the cash out flows of a lender,
@@ -7,7 +7,7 @@ import CashFlow from "./cash-flow";
  * @author Andrew Murphy
  */
 export default class CashFlowAdvance extends CashFlow {
-  constructor(
+  constructor (
     postingDate: Date,
     valueDate: Date | undefined,
     value?: number,
@@ -20,6 +20,6 @@ export default class CashFlowAdvance extends CashFlow {
       value === undefined ? value : -Math.abs(value),
       weighting,
       label
-    );
+    )
   }
 }

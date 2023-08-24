@@ -9,10 +9,10 @@
  * * Yearly
  */
 export enum Frequency {
-  Weekly = "Weekly",
-  Fortnightly = "Fortnightly",
-  Monthly = "Monthly",
-  Quarterly = "Quarterly",
-  HalfYearly = "HalfYearly",
-  Yearly = "Yearly"
+  Weekly = 'Weekly',
+  Fortnightly = 'Fortnightly',
+  Monthly = 'Monthly',
+  Quarterly = 'Quarterly',
+  HalfYearly = 'HalfYearly',
+  Yearly = 'Yearly'
 }

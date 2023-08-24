@@ -1,7 +1,7 @@
-import { Frequency } from "./frequency";
-import { Mode } from "./mode";
-import Series from "./series";
-import { SeriesType } from "./series-type";
+import { type Frequency } from './frequency'
+import { type Mode } from './mode'
+import Series from './series'
+import { SeriesType } from './series-type'
 
 /**
  * A series of one or more advances paid out by a lender. This could comprise a series of
@@ -13,14 +13,14 @@ export default class SeriesAdvance {
   /**
    * Instantiates a default instance of this class to capture user-defined input
    */
-  public static builder(): SeriesAdvance {
-    return new SeriesAdvance();
+  public static builder (): SeriesAdvance {
+    return new SeriesAdvance()
   }
 
-  private _seriesAdvance: Series;
+  private readonly _seriesAdvance: Series
 
-  private constructor() {
-    this._seriesAdvance = new Series(SeriesType.Advance);
+  private constructor () {
+    this._seriesAdvance = new Series(SeriesType.Advance)
   }
 
   /**
@@ -29,9 +29,9 @@ export default class SeriesAdvance {
    *
    * @param label containing localised text in singular form e.g. 'Loan advance'
    */
-  public setLabel(label: string): this {
-    this._seriesAdvance.label = label;
-    return this;
+  public setLabel (label: string): this {
+    this._seriesAdvance.label = label
+    return this
   }
 
   /**
@@ -40,12 +40,12 @@ export default class SeriesAdvance {
    * @param numberOf determining total number of cash flows in series
    * @throws error when numberOf argument is less than 1
    */
-  public setNumberOf(numberOf: number): this {
+  public setNumberOf (numberOf: number): this {
     if (numberOf < 1) {
-      throw new Error("The numberOf value must be 1 or greater");
+      throw new Error('The numberOf value must be 1 or greater')
     }
-    this._seriesAdvance.numberOf = Math.floor(numberOf);
-    return this;
+    this._seriesAdvance.numberOf = Math.floor(numberOf)
+    return this
   }
 
   /**
@@ -54,9 +54,9 @@ export default class SeriesAdvance {
    *
    * @param amount to assign to each cash flow object created.
    */
-  public setAmount(amount: number): this {
-    this._seriesAdvance.amount = amount;
-    return this;
+  public setAmount (amount: number): this {
+    this._seriesAdvance.amount = amount
+    return this
   }
 
   /**
@@ -69,9 +69,9 @@ export default class SeriesAdvance {
    *
    * @param creditedFrom posted date of the first cash flow in the series
    */
-  public setDrawdownFrom(creditedFrom: Date): this {
-    this._seriesAdvance.postedDate = creditedFrom;
-    return this;
+  public setDrawdownFrom (creditedFrom: Date): this {
+    this._seriesAdvance.postedDate = creditedFrom
+    return this
   }
 
   /**
@@ -87,9 +87,9 @@ export default class SeriesAdvance {
    *
    * @param settlement value date of the first cash flow in the series
    */
-  public setSettlementOn(settlement: Date): this {
-    this._seriesAdvance.valueDate = settlement;
-    return this;
+  public setSettlementOn (settlement: Date): this {
+    this._seriesAdvance.valueDate = settlement
+    return this
   }
 
   /**
@@ -97,9 +97,9 @@ export default class SeriesAdvance {
    *
    * @param frequency of the one or more advance cash flows in the series.
    */
-  public setFrequency(frequency: Frequency): this {
-    this._seriesAdvance.frequency = frequency;
-    return this;
+  public setFrequency (frequency: Frequency): this {
+    this._seriesAdvance.frequency = frequency
+    return this
   }
 
   /**
@@ -107,9 +107,9 @@ export default class SeriesAdvance {
    *
    * @param mode of the one or more advance cash flows in the series
    */
-  public setMode(mode: Mode) {
-    this._seriesAdvance.mode = mode;
-    return this;
+  public setMode (mode: Mode): this {
+    this._seriesAdvance.mode = mode
+    return this
   }
 
   /**
@@ -119,37 +119,37 @@ export default class SeriesAdvance {
    * @param weighting to apply to the advance cash flows in the series
    * @throws error when weighting value is zero or negative
    */
-  public setWeighting(weighting: number) {
+  public setWeighting (weighting: number): this {
     if (!(weighting > 0)) {
       throw new Error(
-        "The AdvanceSeries weighting value must be greater than 0"
-      );
+        'The AdvanceSeries weighting value must be greater than 0'
+      )
     }
-    this._seriesAdvance.weighting = weighting;
-    return this;
+    this._seriesAdvance.weighting = weighting
+    return this
   }
 
   /**
    * Method provides a reference to the populated instance once input has been validated.
    *
    */
-  public build(): Series {
+  public build (): Series {
     if (
       this._seriesAdvance.valueDate !== undefined &&
       this._seriesAdvance.postedDate === undefined
     ) {
       throw new Error(
-        "The Advance drawdown date must be entered when a settlement date is defined."
-      );
+        'The Advance drawdown date must be entered when a settlement date is defined.'
+      )
     } else if (
       this._seriesAdvance.postedDate !== undefined &&
       this._seriesAdvance.valueDate !== undefined &&
       this._seriesAdvance.valueDate.getTime() < this._seriesAdvance.postedDate.getTime()
     ) {
       throw new Error(
-        "The Advance settlement date must fall on or after the drawdown date."
-      );
+        'The Advance settlement date must fall on or after the drawdown date.'
+      )
     }
-    return this._seriesAdvance;
+    return this._seriesAdvance
   }
 }

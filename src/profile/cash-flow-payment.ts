@@ -1,4 +1,4 @@
-import CashFlow from "./cash-flow";
+import CashFlow from './cash-flow'
 
 /**
  * Represents the movement of money, specifically interest bearing cash in-flows
@@ -12,18 +12,18 @@ export default class CashFlowPayment extends CashFlow {
    * is true. The difference between interest and the cash flow value is the
    * amortised capital.
    */
-  public interest: number;
+  public interest: number
   /**
    * Determines whether the interest accrued to date is capitalised or rolled over.
    * Default is true.
    */
-  private _isIntCapitalized: boolean;
+  private readonly _isIntCapitalized: boolean
 
-  constructor(
+  constructor (
     postingDate: Date,
     value?: number,
     weighting?: number,
-    isIntCapitalised: boolean = true,
+    isIntCapitalised = true,
     label?: string
   ) {
     super(
@@ -32,16 +32,16 @@ export default class CashFlowPayment extends CashFlow {
       value === undefined ? value : Math.abs(value),
       weighting,
       label
-    );
-    this.interest = 0;
-    this._isIntCapitalized = isIntCapitalised;
+    )
+    this.interest = 0
+    this._isIntCapitalized = isIntCapitalised
   }
 
   /**
    * Flag indicating whether interest accrued to date is to be capitalised (true)
    * or rolled over (false).
    */
-  public isIntCapitalised(): boolean {
-    return this._isIntCapitalized;
+  public isIntCapitalised (): boolean {
+    return this._isIntCapitalized
   }
 }

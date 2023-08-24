@@ -1,8 +1,8 @@
-import Convention from "../day-count/convention";
-import CashFlowCharge from "../profile/cash-flow-charge";
-import CashFlowPayment from "../profile/cash-flow-payment";
-import Profile from "../profile/profile";
-import Callback from "./callback";
+import Convention from '../day-count/convention'
+import CashFlowCharge from '../profile/cash-flow-charge'
+import CashFlowPayment from '../profile/cash-flow-payment'
+import type Profile from '../profile/profile'
+import type Callback from './callback'
 
 /**
  * Implementation of the function for finding the interest rate where the
@@ -21,15 +21,15 @@ export default class SolveNfv implements Callback {
    * @param profile containing the cash flow series
    * @param dayCount day count convention to use
    */
-  constructor(
-    private profile: Profile,
-    private dayCount: Convention
+  constructor (
+    private readonly profile: Profile,
+    private readonly dayCount: Convention
   ) {
-    profile.assignFactors(this.dayCount);
+    profile.assignFactors(this.dayCount)
   }
 
-  public label(): string {
-    return "Net Future Value";
+  public label (): string {
+    return 'Net Future Value'
   }
 
   /**
@@ -38,8 +38,8 @@ export default class SolveNfv implements Callback {
    * @param rateGuess interest rate guess, or actual rate if known
    *
    */
-  public compute(rateGuess: number): number {
-    let capBal: number = 0;
+  public compute (rateGuess: number): number {
+    let capBal = 0
 
     switch (this.profile.dayCount.dayCountRef()) {
       case Convention.DRAWDOWN:
@@ -47,44 +47,45 @@ export default class SolveNfv implements Callback {
           if (
             cashFlow instanceof CashFlowCharge && !this.profile.dayCount.inclNonFinFlows()
           ) {
-            continue;
+            continue
           }
           capBal +=
             cashFlow.value *
-            Math.pow(1 + rateGuess, -cashFlow.periodFactor.factor);
+            Math.pow(1 + rateGuess, -cashFlow.periodFactor.factor)
         }
-        break;
+        break
 
       case Convention.NEIGHBOUR:
-      default:
-        let periodInt: number;
-        let accruedInt: number = 0;
+      default: {
+        let periodInt: number
+        let accruedInt = 0
         for (const cashFlow of this.profile.cashFlows) {
           if (
             cashFlow instanceof CashFlowCharge && !this.profile.dayCount.inclNonFinFlows()
           ) {
-            continue;
+            continue
           }
 
-          periodInt = capBal * rateGuess * cashFlow.periodFactor.factor;
+          periodInt = capBal * rateGuess * cashFlow.periodFactor.factor
 
           if (cashFlow instanceof CashFlowPayment) {
             if (cashFlow.isIntCapitalised()) {
-              capBal += accruedInt + periodInt + cashFlow.value;
-              accruedInt = 0;
+              capBal += accruedInt + periodInt + cashFlow.value
+              accruedInt = 0
             } else {
-              accruedInt += periodInt;
-              capBal += cashFlow.value;
+              accruedInt += periodInt
+              capBal += cashFlow.value
             }
-            continue;
+            continue
           }
 
           // Cash outflows
-          capBal += periodInt;
-          capBal += cashFlow.value;
+          capBal += periodInt
+          capBal += cashFlow.value
         }
-        break;
+        break
+      }
     }
-    return capBal;
+    return capBal
   }
 }
