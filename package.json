@@ -1,6 +1,6 @@
 {
   "name": "@curo/calculator",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "description": "A feature-rich library for performing simple to advanced instalment credit financial calculations.",
   "keywords": [
     "finance calculator",
@@ -20,16 +20,16 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
-    "assets",
+    "assets/cash-flow-diagram.png",
     "dist"
   ],
   "types": "dist/index.d.ts",
   "scripts": {
-    "lint": "tslint --fix -p tsconfig.json",
+    "lint": "eslint --fix ./src/**/*.ts",
     "type-check": "tsc --noEmit",
-    "test": "nyc mocha",
-    "build": "npm test && rollup -c",
-    "watch": "rollup -cw"
+    "test": "mocha",
+    "coverage": "nyc npm run test",
+    "build": "npm run coverage && rollup -c --bundleConfigAsCjs"
   },
   "nyc": {
     "all": true,
@@ -43,11 +43,11 @@
       "src/index.ts"
     ],
     "reporter": [
-      "json",
       "text",
-      "html"
+      "lcovonly"
     ],
     "temp-dir": "./coverage/.nyc_output",
+    "clean": true,
     "cache": true
   },
   "author": {
@@ -61,19 +61,20 @@
   },
   "homepage": "https://github.com/andrewmurphy353/curo-calculator#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^10.14.12",
-    "chai": "^4.2.0",
-    "coveralls": "^3.0.5",
-    "mocha": "^5.2.0",
-    "nyc": "^13.3.0",
-    "rollup": "^1.16.7",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.5.4",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "chai": "^4.3.7",
+    "coveralls": "^3.1.1",
+    "eslint": "^8.47.0",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "rollup": "^3.28.1",
     "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-typescript2": "^0.20.1",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
-  },
-  "dependencies": {}
+    "rollup-plugin-typescript2": "^0.35.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
 }
