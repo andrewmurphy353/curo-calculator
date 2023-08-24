@@ -1,8 +1,9 @@
 # Curo Calculator
-[![Build Status](https://travis-ci.com/andrewmurphy353/curo-calculator.svg?branch=master)](https://travis-ci.com/andrewmurphy353/curo-calculator)
-[![Coverage Status](https://coveralls.io/repos/github/andrewmurphy353/curo-calculator/badge.svg?branch=master)](https://coveralls.io/github/andrewmurphy353/curo-calculator?branch=master)
+[![Build Status](https://github.com/andrewmurphy353/curo-calculator/actions/workflows/curo_ci.yml/badge.svg)](https://github.com/andrewmurphy353/curo-calculator/actions/workflows/curo_ci.yml/badge.svg)
+[![Codecov Status](https://codecov.io/gh/andrewmurphy353/curo-calculator/graph/badge.svg?token=N4KH8VJF3V)](https://codecov.io/gh/andrewmurphy353/curo-calculator)
 ![GitHub](https://img.shields.io/github/license/andrewmurphy353/curo-calculator.svg)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@curo/calculator.svg)
+
 
 A financial calculator for solving unknown cash flow values and unknown interest rates implicit in fixed-term instalment credit products, for example leasing, loans and hire purchase contracts [1].
 
@@ -85,7 +86,7 @@ npm test
 
 ## License
 
-Copyright © 2019, [Andrew Murphy](https://github.com/andrewmurphy353).
+Copyright © 2019-2023, [Andrew Murphy](https://github.com/andrewmurphy353).
 Released under the [MIT License](LICENSE).
 
 ### Footnotes
