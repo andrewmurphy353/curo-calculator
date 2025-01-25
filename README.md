@@ -4,6 +4,11 @@
 ![GitHub](https://img.shields.io/github/license/andrewmurphy353/curo-calculator.svg)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@curo/calculator.svg)
 
+## Update
+
+**Important Notice:** This repository and its codebase are no longer actively maintained. As a result, any updates made to [curo](https://github.com/andrewmurphy353/curo), which is a Dart version of this library, will not be reflected here.
+
+---
 
 A financial calculator for solving unknown cash flow values and unknown interest rates implicit in fixed-term instalment credit products, for example leasing, loans and hire purchase contracts [1].
 
